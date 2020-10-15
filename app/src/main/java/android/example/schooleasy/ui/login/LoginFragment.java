@@ -3,8 +3,10 @@ package android.example.schooleasy.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.example.schooleasy.JsonPlaceholderApi;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
+import android.example.schooleasy.ui.LoadDialog;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
@@ -26,8 +28,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginFragment extends Fragment {
 
@@ -41,24 +50,23 @@ public class LoginFragment extends Fragment {
     private CheckBox docCheckbox;
     private CheckBox patCheckbox;
     private LoadDialog loadDialog;
-    private TextView text=header;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View root =inflater.inflate(R.layout.fragment_login,container,false);
+        View root = inflater.inflate(R.layout.fragment_login, container, false);
         show_hide_password = (CheckBox) root.findViewById(R.id.show_hide_password);
-        email =(EditText) root.findViewById(R.id.login_emailid);
+        email = (EditText) root.findViewById(R.id.login_emailid);
         password = (EditText) root.findViewById(R.id.login_password);
-        loginBtn=(Button) root.findViewById(R.id.loginBtn);
+        loginBtn = (Button) root.findViewById(R.id.loginBtn);
         navigationView = root.findViewById(R.id.nav_view);
         docCheckbox = (CheckBox) root.findViewById(R.id.doctor_checkbox1);
         patCheckbox = (CheckBox) root.findViewById(R.id.patient_checkbox1);
 
 
-        loadDialog=new LoadDialog(getActivity());
+        loadDialog = new LoadDialog(getActivity());
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
@@ -112,7 +120,7 @@ public class LoginFragment extends Fragment {
         docCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked && patCheckbox.isChecked())
+                if (isChecked && patCheckbox.isChecked())
                     patCheckbox.toggle();
             }
         });
@@ -120,30 +128,30 @@ public class LoginFragment extends Fragment {
         patCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked && docCheckbox.isChecked())
+                if (isChecked && docCheckbox.isChecked())
                     docCheckbox.toggle();
             }
         });
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email.getText().toString().isEmpty()){
+                if (email.getText().toString().isEmpty()) {
                     email.setError("Email not entered");
                     return;
                 }
-                if(password.getText().toString().isEmpty()){
+                if (password.getText().toString().isEmpty()) {
                     password.setError("Password not entered");
                     return;
                 }
-                if(docCheckbox.isChecked()){
+                if (docCheckbox.isChecked()) {
                     loadDialog.startLoad();
-                    loginDoctor();
-                }else if(patCheckbox.isChecked()){
-                    loadDialog.startLoad();
-                    loginPatient();
 
-                }else {
-                    Toast.makeText(getActivity(),"Please select doctor or patient",Toast.LENGTH_SHORT).show();
+                } else if (patCheckbox.isChecked()) {
+                    loadDialog.startLoad();
+
+
+                } else {
+                    Toast.makeText(getActivity(), "Please select doctor or patient", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -156,11 +164,11 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        createaccount =(TextView)view.findViewById(R.id.createAccount);
+        createaccount = (TextView) view.findViewById(R.id.createAccount);
         createaccount.setOnClickListener(view1 -> {
-            Fragment fragment =new SignupFragment();
-            if(getActivity()!=null) {
-                Log.v("TAG","Success");
+            Fragment fragment = new SignupFragment();
+            if (getActivity() != null) {
+                Log.v("TAG", "Success");
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_auth_container, new SignupFragment())
@@ -168,79 +176,4 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-
-    private void loginDoctor(){
-
-        String emailEntered = email.getText().toString();
-        String passwordEntered = password.getText().toString();
-        Post post = new Post(emailEntered,passwordEntered,null,null,null,null,null);
-        Call<Post> call = jsonPlaceholderApi.loginDoctor(post);
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
-                    loadDialog.dismissLoad();
-                    return;
-                }
-                loadDialog.dismissLoad();
-                Post postResponse = response.body();
-                Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
-                SharedPreferences info = getContext().getSharedPreferences("info", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = info.edit();
-                editor.putString("isDoctor","Yes");
-                editor.putString("isPatient","No");
-                editor.putString("loggedIn","Yes");
-                editor.putString("token",postResponse.getToken());
-                editor.apply();
-                Log.d("BC","mess"+postResponse.getToken());
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                loadDialog.dismissLoad();
-                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loginPatient(){
-        String emailEntered = email.getText().toString();
-        String passwordEntered = password.getText().toString();
-        Post post = new Post(emailEntered,passwordEntered,null,null,null,null,null);
-        Call<Post> call = jsonPlaceholderApi.loginPatient(post);
-        call.enqueue(new Callback<Post>() {
-            @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                if(!response.isSuccessful())  {
-                    Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
-                    loadDialog.dismissLoad();
-                    return;
-                }
-                loadDialog.dismissLoad();
-                Post postResponse = response.body();
-                Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
-                SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = info.edit();
-                editor.putString("isPatient","Yes");
-                editor.putString("isDoctor","No");
-                editor.putString("loggedIn","Yes");
-                editor.putString("token",postResponse.getToken());
-                editor.apply();
-
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-            }
-            @Override
-            public void onFailure(Call<Post> call, Throwable t) {
-                loadDialog.dismissLoad();
-                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
 }
-
-
