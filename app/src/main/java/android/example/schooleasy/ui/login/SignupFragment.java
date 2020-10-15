@@ -106,6 +106,7 @@ public class SignupFragment extends Fragment {
             public void onClick(View v) {
                 if (userEmailId.getText().toString().isEmpty()) {
                     userEmailId.setError("Email not entered");
+                    Log.d("email","email is "+ userEmailId);
                     return;
                 }
                 if (userPassword.getText().toString().isEmpty()) {
