@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.example.schooleasy.JsonPlaceholderApi;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
+import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.ui.LoadDialog;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.format.Formatter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -31,12 +34,20 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class LoginFragment extends Fragment {
 
@@ -47,8 +58,6 @@ public class LoginFragment extends Fragment {
     private Button loginBtn;
     private TextView createaccount;
     NavigationView navigationView;
-    private CheckBox docCheckbox;
-    private CheckBox patCheckbox;
     private LoadDialog loadDialog;
 
 
@@ -62,8 +71,6 @@ public class LoginFragment extends Fragment {
         password = (EditText) root.findViewById(R.id.login_password);
         loginBtn = (Button) root.findViewById(R.id.loginBtn);
         navigationView = root.findViewById(R.id.nav_view);
-        docCheckbox = (CheckBox) root.findViewById(R.id.doctor_checkbox1);
-        patCheckbox = (CheckBox) root.findViewById(R.id.patient_checkbox1);
 
 
         loadDialog = new LoadDialog(getActivity());
@@ -81,7 +88,7 @@ public class LoginFragment extends Fragment {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://darshil.herokuapp.com/api/")
+                .baseUrl("http://10.0.2.2:4000/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
@@ -116,22 +123,6 @@ public class LoginFragment extends Fragment {
                     }
                 });
 
-
-        docCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked && patCheckbox.isChecked())
-                    patCheckbox.toggle();
-            }
-        });
-
-        patCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked && docCheckbox.isChecked())
-                    docCheckbox.toggle();
-            }
-        });
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,17 +134,8 @@ public class LoginFragment extends Fragment {
                     password.setError("Password not entered");
                     return;
                 }
-                if (docCheckbox.isChecked()) {
-                    loadDialog.startLoad();
-
-                } else if (patCheckbox.isChecked()) {
-                    loadDialog.startLoad();
-
-
-                } else {
-                    Toast.makeText(getActivity(), "Please select doctor or patient", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                loadDialog.startLoad();
+                loginUser();
             }
         });
         return root;
@@ -175,5 +157,39 @@ public class LoginFragment extends Fragment {
                         .commit();
             }
         });
+    }
+    private void loginUser(){
+        String emailEntered = email.getText().toString();
+        String passwordEntered = password.getText().toString();
+        Student student =new Student(emailEntered,passwordEntered,null,null,null,null);
+        Call<Student> call =jsonPlaceholderApi.loginUser(student);
+        call.enqueue(new Callback<Student>() {
+            @Override
+            public void onResponse(Call<Student> call, Response<Student> response) {
+                if(!response.isSuccessful())  {
+                    Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
+                    loadDialog.dismissLoad();
+                    return;
+                }
+                loadDialog.dismissLoad();
+                Student student1 = response.body();
+                Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
+                SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = info.edit();
+                editor.putString("loggedIn","Yes");
+                editor.putString("token",student1.getToken());
+                editor.apply();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Student> call, Throwable t) {
+                loadDialog.dismissLoad();
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

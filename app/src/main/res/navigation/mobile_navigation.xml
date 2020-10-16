@@ -12,14 +12,24 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="android.example.schooleasy.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_discussion"
+        android:name="android.example.schooleasy.ui.discussionForum.DiscussionForum"
+        android:label="Discussion Forum"
+        tools:layout="@layout/fragment_discussion" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="android.example.schooleasy.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_timetable"
+        android:name="android.example.schooleasy.ui.timetable.Timetable"
+        android:label="Timetable"
+        tools:layout="@layout/fragment_timetable" />
+    <fragment
+        android:id="@+id/nav_otherStudent"
+        android:name="android.example.schooleasy.ui.otherStudents.OtherStudents"
+        android:label="Classmates"
+        tools:layout="@layout/fragment_otherfragment"/>
+    <fragment
+        android:id="@+id/nav_teacher"
+        android:name="android.example.schooleasy.ui.teacher.Teacher"
+        android:label="Teacher"
+        tools:layout="@layout/fragment_teacher"/>
 </navigation>

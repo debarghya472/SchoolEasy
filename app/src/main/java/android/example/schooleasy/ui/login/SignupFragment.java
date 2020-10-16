@@ -38,8 +38,8 @@ public class SignupFragment extends Fragment {
     private EditText userPassword;
     private Button signupBtn;
     private JsonPlaceholderApi jsonPlaceholderApi;
-    private CheckBox docCheckbox;
-    private CheckBox patCheckbox;
+    private CheckBox studCheckbox;
+    private CheckBox parCheckbox;
     private EditText fullName;
     private EditText mobileNo;
     private EditText field;
@@ -64,9 +64,8 @@ public class SignupFragment extends Fragment {
         userPassword = (EditText) root.findViewById(R.id.password);
         confirmPassword = (EditText) root.findViewById(R.id.confirmPassword);
         signupBtn = (Button) root.findViewById(R.id.signUpBtn);
-        docCheckbox = (CheckBox) root.findViewById(R.id.doctor_checkbox);
-        patCheckbox = (CheckBox) root.findViewById(R.id.patient_checkbox);
-        field = (EditText) root.findViewById(R.id.field);
+        studCheckbox = (CheckBox) root.findViewById(R.id.student_checkbox);
+        parCheckbox = (CheckBox) root.findViewById(R.id.parent_checkbox);
         mobileNo = (EditText) root.findViewById(R.id.mobileNumber);
         address = (EditText) root.findViewById(R.id.address);
         fullName = (EditText) root.findViewById(R.id.fullName);
@@ -84,7 +83,7 @@ public class SignupFragment extends Fragment {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://darshil.herokuapp.com/api/")
+                .baseUrl("http://10.0.2.2:4000/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
@@ -129,19 +128,19 @@ public class SignupFragment extends Fragment {
                     fullName.setError("Name not entered");
                     return;
                 }
-                if (!docCheckbox.isChecked() && !patCheckbox.isChecked() || docCheckbox.isChecked() && patCheckbox.isChecked()) {
+                if (!studCheckbox.isChecked() && !parCheckbox.isChecked() || studCheckbox.isChecked() && parCheckbox.isChecked()) {
                     Toast.makeText(context, "Select doctor or patient", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (docCheckbox.isChecked()) {
+                if (studCheckbox.isChecked()) {
                     if (field.getText().toString().isEmpty()) {
                         field.setError("Enter field");
                     } else {
                         loadDialog.startLoad();
                     }
                 }
-                if (patCheckbox.isChecked()) {
+                if (studCheckbox.isChecked()) {
                     loadDialog.startLoad();
                 }
             }
