@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.example.schooleasy.ui.login.loginSignupActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.Menu;
 
@@ -12,6 +13,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -57,6 +60,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
+        String isLogged = info.getString("loggedIn","No");
+        if(isLogged=="No"){
+            this.finish();
+        }
+        return super.onCreateView(name, context, attrs);
     }
 
     @Override

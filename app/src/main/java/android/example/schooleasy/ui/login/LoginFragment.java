@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.example.schooleasy.JsonPlaceholderApi;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
+import android.example.schooleasy.dataclass.Parent;
 import android.example.schooleasy.dataclass.Student;
+import android.example.schooleasy.dataclass.Teacher;
+import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -59,6 +62,9 @@ public class LoginFragment extends Fragment {
     private TextView createaccount;
     NavigationView navigationView;
     private LoadDialog loadDialog;
+    private CheckBox studCheckbox;
+    private CheckBox parCheckbox;
+    private CheckBox teaCheckbox;
 
 
     @Nullable
@@ -71,27 +77,18 @@ public class LoginFragment extends Fragment {
         password = (EditText) root.findViewById(R.id.login_password);
         loginBtn = (Button) root.findViewById(R.id.loginBtn);
         navigationView = root.findViewById(R.id.nav_view);
+        studCheckbox =root.findViewById(R.id.student_checkbox1);
+        parCheckbox =root.findViewById(R.id.parent_checkbox1);
+        teaCheckbox =root.findViewById(R.id.teacher_checkbox1);
+
 
 
         loadDialog = new LoadDialog(getActivity());
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-        Gson gson = new GsonBuilder().serializeNulls().create();
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .callTimeout(5, TimeUnit.SECONDS)
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:4000/api/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient)
-                .build();
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
 
         jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
@@ -122,6 +119,34 @@ public class LoginFragment extends Fragment {
                         }
                     }
                 });
+        studCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && parCheckbox.isChecked())
+                    parCheckbox.toggle();
+                if (isChecked && teaCheckbox.isChecked())
+                    teaCheckbox.toggle();
+            }
+        });
+        parCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && studCheckbox.isChecked())
+                    studCheckbox.toggle();
+                if (isChecked && teaCheckbox.isChecked())
+                    teaCheckbox.toggle();
+            }
+        });
+        teaCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && studCheckbox.isChecked())
+                    studCheckbox.toggle();
+                if (isChecked && parCheckbox.isChecked())
+                    parCheckbox.toggle();
+            }
+        });
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,8 +159,18 @@ public class LoginFragment extends Fragment {
                     password.setError("Password not entered");
                     return;
                 }
-                loadDialog.startLoad();
-                loginUser();
+                if(studCheckbox.isChecked()){
+                    loadDialog.startLoad();
+                    loginStudent();
+                }
+                if(parCheckbox.isChecked()){
+                    loadDialog.startLoad();
+                    loginParent();
+                }
+                if (teaCheckbox.isChecked()){
+                    loadDialog.startLoad();
+                    loginTeacher();
+                }
             }
         });
         return root;
@@ -158,11 +193,11 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-    private void loginUser(){
+    private void loginStudent(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
         Student student =new Student(emailEntered,passwordEntered,null,null,null,null);
-        Call<Student> call =jsonPlaceholderApi.loginUser(student);
+        Call<Student> call =jsonPlaceholderApi.loginStudent(student);
         call.enqueue(new Callback<Student>() {
             @Override
             public void onResponse(Call<Student> call, Response<Student> response) {
@@ -177,6 +212,9 @@ public class LoginFragment extends Fragment {
                 SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = info.edit();
                 editor.putString("loggedIn","Yes");
+                editor.putString("IsStudent","Yes");
+                editor.putString("IsParent","No");
+                editor.putString("IsTeacher","No");
                 editor.putString("token",student1.getToken());
                 editor.apply();
 
@@ -188,6 +226,86 @@ public class LoginFragment extends Fragment {
             public void onFailure(Call<Student> call, Throwable t) {
                 loadDialog.dismissLoad();
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private  void loginParent(){
+        String emailEntered = email.getText().toString();
+        String passwordEntered = password.getText().toString();
+        Parent parent =new Parent(emailEntered,passwordEntered,null,null,null,null);
+        Call<Parent> call =jsonPlaceholderApi.loginParent(parent);
+        call.enqueue(new Callback<Parent>() {
+            @Override
+            public void onResponse(Call<Parent> call, Response<Parent> response) {
+                if(!response.isSuccessful())  {
+                    Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
+                    loadDialog.dismissLoad();
+                    return;
+                }
+                loadDialog.dismissLoad();
+                Parent parent1 = response.body();
+                Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
+                SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = info.edit();
+                editor.putString("loggedIn","Yes");
+                editor.putString("IsParent","Yes");
+                editor.putString("IsStudent","No");
+                editor.putString("IsTeacher","No");
+                editor.putString("token",parent1.getToken());
+                editor.apply();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Parent> call, Throwable t) {
+
+                loadDialog.dismissLoad();
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+    private void loginTeacher(){
+        String emailEntered = email.getText().toString();
+        String passwordEntered = password.getText().toString();
+        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null,null);
+        Call<Teacher> call = jsonPlaceholderApi.loginTeacher(teacher);
+        call.enqueue(new Callback<Teacher>() {
+            @Override
+            public void onResponse(Call<Teacher> call, Response<Teacher> response) {
+                if(!response.isSuccessful())  {
+                    Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
+                    loadDialog.dismissLoad();
+                    return;
+                }
+                loadDialog.dismissLoad();
+                Teacher teacher1 = response.body();
+                Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
+                SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = info.edit();
+                editor.putString("loggedIn","Yes");
+                editor.putString("IsParent","No");
+                editor.putString("IsStudent","No");
+                editor.putString("IsTeacher","Yes");
+                editor.putString("token",teacher1.getToken());
+                editor.apply();
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Teacher> call, Throwable t) {
+                loadDialog.dismissLoad();
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+
             }
         });
 
