@@ -67,7 +67,7 @@ public class SignupFragment extends Fragment {
         studCheckbox = (CheckBox) root.findViewById(R.id.student_checkbox);
         parCheckbox = (CheckBox) root.findViewById(R.id.parent_checkbox);
         mobileNo = (EditText) root.findViewById(R.id.mobileNumber);
-        address = (EditText) root.findViewById(R.id.address);
+//        address = (EditText) root.findViewById(R.id.address);
         fullName = (EditText) root.findViewById(R.id.fullName);
 
         loadDialog = new LoadDialog(getActivity());
