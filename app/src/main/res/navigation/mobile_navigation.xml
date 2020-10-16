@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="android.example.schooleasy.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_student" />
 
     <fragment
         android:id="@+id/nav_discussion"
