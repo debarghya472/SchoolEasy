@@ -83,7 +83,11 @@ public class SignupFragment extends Fragment {
         parCheckbox = (CheckBox) root.findViewById(R.id.parent_checkbox);
         teaCheckbox=(CheckBox) root.findViewById(R.id.teacher_checkbox);
         mobileNo = (EditText) root.findViewById(R.id.mobileNumber);
+
         subject = (EditText) root.findViewById(R.id.subject);
+
+//        address = (EditText) root.findViewById(R.id.address);
+
         fullName = (EditText) root.findViewById(R.id.fullName);
         standard=(EditText) root.findViewById(R.id.standard);
 
@@ -155,6 +159,7 @@ public class SignupFragment extends Fragment {
             public void onClick(View v) {
                 if (userEmailId.getText().toString().isEmpty()) {
                     userEmailId.setError("Email not entered");
+                    Log.d("email","email is "+ userEmailId);
                     return;
                 }
                 if (userPassword.getText().toString().isEmpty()) {
