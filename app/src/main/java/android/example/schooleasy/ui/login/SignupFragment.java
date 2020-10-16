@@ -84,7 +84,7 @@ public class SignupFragment extends Fragment {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://darshil.herokuapp.com/api/")
+                .baseUrl("http://10.0.2.2:4000/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();

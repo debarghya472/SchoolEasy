@@ -1,5 +1,9 @@
 package android.example.schooleasy;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.example.schooleasy.ui.login.loginSignupActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -16,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.zip.Inflater;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -24,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
+        String isLogged = info.getString("loggedIn","No");
+        if(isLogged=="No"){
+            Intent intent = new Intent(MainActivity.this, loginSignupActivity.class);
+            startActivity(intent);
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -39,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_timetable, R.id.nav_otherStudent,R.id.nav_discussion,R.id.nav_teacher)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

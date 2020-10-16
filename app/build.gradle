@@ -57,6 +57,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-
+    implementation 'org.conscrypt:conscrypt-android:2.2.1'
 
 }
