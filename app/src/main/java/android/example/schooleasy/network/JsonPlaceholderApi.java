@@ -1,5 +1,6 @@
 package android.example.schooleasy.network;
 
+import android.example.schooleasy.dataclass.DisQuestion;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
 import android.example.schooleasy.dataclass.Parent;
@@ -51,5 +52,9 @@ public interface JsonPlaceholderApi {
 
     @GET("standards/{standardid}/students")
     Call<Student> showStudentProfile();
+
+    @GET("discussions/5f89c5b3cf7cf851948cfd6a")
+    Call<DisQuestion> getDisQs();
+
 
 }

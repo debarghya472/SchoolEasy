@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
-import android.example.schooleasy.ui.discussionForum.DiscussionForum;
+import android.example.schooleasy.ui.discussionForum.DiscussionForumQuestions;
 import android.os.Bundle;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -33,7 +33,7 @@ public class Feed extends AppCompatActivity {
                     case R.id.Feed:
                         break;
                     case R.id.discussion:
-                        startActivity(new Intent(getApplicationContext(), DiscussionForum.class));
+                        startActivity(new Intent(getApplicationContext(), DiscussionForumQuestions.class));
                         break;
                 }
             }

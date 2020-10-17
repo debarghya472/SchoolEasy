@@ -10,15 +10,15 @@ import android.os.Bundle;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class DiscussionForum extends AppCompatActivity {
+public class DicussionForumAnswers extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_discussion_forum);
+        setContentView(R.layout.activity_dicussion_forum_answers);
         ChipNavigationBar bottomNav= findViewById(R.id.bottom_nav);
 
-       setTitle("Discussion Forum");
+        setTitle("Discussion Forum");
 
         bottomNav.setItemSelected(R.id.discussion,true);
 
@@ -37,6 +37,5 @@ public class DiscussionForum extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
