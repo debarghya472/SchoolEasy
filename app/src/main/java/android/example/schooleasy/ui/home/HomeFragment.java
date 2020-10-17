@@ -8,6 +8,7 @@ import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,6 @@ public class HomeFragment extends Fragment {
 
     private TextView textView;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
     private List<Subject> mSubList;
     private JsonPlaceholderApi jsonPlaceholderApi;
     private LoadDialog loadDialog;
@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
         Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
         jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
-        loadDialog.startLoad();
 
         Call<StandardResponse> call1 = jsonPlaceholderApi.getStandardId(st);
         call1.enqueue(new Callback<StandardResponse>() {
@@ -69,8 +68,10 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<StandardResponse> call, Response<StandardResponse> response) {
                 if(!response.isSuccessful()){
                     Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
+
                     return;
                 }
+
                 Standard standard =response.body().getStandard();
                 String standardId = standard.getStandardId();
                 String discussionForumId = s
@@ -83,14 +84,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<StandardResponse> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+
             }
         });
-        Toast.makeText(getContext(),"DS"+info.getString("StandardId","0"),Toast.LENGTH_LONG).show();
 
-        Call<Subject> call = jsonPlaceholderApi.getSubject(info.getString("StandardId","0"));
-        call.enqueue(new Callback<Subject>() {
+        getsubject();
+
+
+//        mSubList.add(0,"History");
+//        mSubList.add(1,"Geography");
+//        mSubList.add(2,"Maths");
+//        mSubList.add(3,"English");
+
+
+        return root;
+    }
+    private void attachAdapter(List<Subject> list){
+
+        final SubjectAdapter adapter = new SubjectAdapter(list,getActivity());
+        recyclerView.setAdapter(adapter);
+    }
+    public void getsubject(){
+        SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
+
+//        Toast.makeText(getContext(),info.getString("StandardId","0"),Toast.LENGTH_LONG).show();
+        String st=info.getString("StandardId","0");
+
+
+        loadDialog.startLoad();
+        Call<SubjectList> call = jsonPlaceholderApi.getSubject(st);
+        call.enqueue(new Callback<SubjectList>() {
             @Override
-            public void onResponse(Call<Subject> call, Response<Subject> response) {
+            public void onResponse(Call<SubjectList> call, Response<SubjectList> response) {
                 if(!response.isSuccessful()){
                     Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
@@ -98,21 +123,22 @@ public class HomeFragment extends Fragment {
                 }
                 loadDialog.dismissLoad();
 
+                List<Subject> subjectList = response.body().getSubjectList();
+
+                for(Subject subject : subjectList){
+                    mSubList.add(new Subject(subject.getSubname(),subject.getTeacher(),subject.getSubid()));
+                }
+                attachAdapter(mSubList);
+
             }
 
             @Override
-            public void onFailure(Call<Subject> call, Throwable t) {
+            public void onFailure(Call<SubjectList> call, Throwable t) {
+                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT);
                 loadDialog.dismissLoad();
+
             }
         });
-//        mSubList.add(0,"History");
-//        mSubList.add(1,"Geography");
-//        mSubList.add(2,"Maths");
-//        mSubList.add(3,"English");
-        adapter = new SubjectAdapter(mSubList, getActivity());
-        recyclerView.setAdapter(adapter);
 
-
-        return root;
     }
 }

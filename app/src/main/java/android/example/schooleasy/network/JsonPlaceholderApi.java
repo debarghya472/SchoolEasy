@@ -14,6 +14,7 @@ import android.example.schooleasy.dataclass.Teacher;
 import android.example.schooleasy.dataclass.TeacherList;
 import android.example.schooleasy.dataclass.TeacherProfileResponse;
 import android.example.schooleasy.ui.home.StandardResponse;
+import android.example.schooleasy.ui.home.SubjectList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -52,7 +53,7 @@ public interface JsonPlaceholderApi {
 
     //get subject
     @GET("subjects/{standardId}/all")
-    Call<Subject> getSubject(@Path("standardId") String standardId);
+    Call<SubjectList> getSubject(@Path("standardId") String standardId);
 
     @GET("standards/{standardid}/students")
     Call<Student> showStudentProfile();
