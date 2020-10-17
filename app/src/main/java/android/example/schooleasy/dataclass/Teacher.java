@@ -15,6 +15,8 @@ public class Teacher {
     private String mobile;
     @SerializedName("subject")
     private String subject;
+    @SerializedName("standard")
+    private String standard;
 
     public Teacher(String email, String password, String token, String name, String mobile, String subject) {
         this.email = email;
@@ -23,6 +25,10 @@ public class Teacher {
         this.name = name;
         this.mobile = mobile;
         this.subject = subject;
+    }
+
+    public String getStandard() {
+        return standard;
     }
 
     public String getEmail() {

@@ -216,6 +216,7 @@ public class LoginFragment extends Fragment {
                 editor.putString("IsParent","No");
                 editor.putString("IsTeacher","No");
                 editor.putString("token",student1.getToken());
+                editor.putString("standard",student1.getStandard());
                 editor.apply();
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -294,6 +295,8 @@ public class LoginFragment extends Fragment {
                 editor.putString("IsStudent","No");
                 editor.putString("IsTeacher","Yes");
                 editor.putString("token",teacher1.getToken());
+                editor.putString("subject",teacher1.getSubject());
+                editor.putString("standard",teacher1.getStandard());
                 editor.apply();
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
