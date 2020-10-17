@@ -26,10 +26,10 @@
         android:id="@+id/nav_otherStudent"
         android:name="android.example.schooleasy.ui.otherStudents.OtherStudents"
         android:label="Classmates"
-        tools:layout="@layout/fragment_otherfragment"/>
+        tools:layout="@layout/fragment_otherstudents"/>
     <fragment
         android:id="@+id/nav_teacher"
-        android:name="android.example.schooleasy.ui.teacher.Teacher"
+        android:name="android.example.schooleasy.ui.teacher.TeacherProfiles"
         android:label="Teacher"
         tools:layout="@layout/fragment_teacher"/>
 </navigation>

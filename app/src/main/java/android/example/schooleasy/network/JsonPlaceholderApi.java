@@ -6,6 +6,7 @@ import android.example.schooleasy.dataclass.Teacher;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface JsonPlaceholderApi {
@@ -29,4 +30,7 @@ public interface JsonPlaceholderApi {
 
     @POST("teachers/signup")
     Call<Teacher> signUpTeach(@Body Teacher post);
+
+    @GET("standards/{standardid}/students")
+    Call<Student> showStudentProfile();
 }

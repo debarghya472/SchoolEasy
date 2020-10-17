@@ -45,7 +45,6 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Events events = arrayList.get(position);
-        Toast.makeText(context,"Event "+ events.getEvent(),Toast.LENGTH_SHORT).show();
         holder.Event.setText(events.getEvent());
         holder.DateTxt.setText(events.getDate());
         holder.Time.setText(events.getTime());
