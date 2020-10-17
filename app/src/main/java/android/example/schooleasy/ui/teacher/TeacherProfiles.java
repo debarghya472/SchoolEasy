@@ -2,7 +2,8 @@ package android.example.schooleasy.ui.teacher;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.example.schooleasy.JsonPlaceholderApi;
+import android.example.schooleasy.dataclass.TeacherProfileResponse;
+import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.R;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.Teacher;
@@ -10,6 +11,7 @@ import android.example.schooleasy.dataclass.TeacherList;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,32 +52,34 @@ public class TeacherProfiles extends Fragment {
 
         SharedPreferences info = getActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
         String standard = info.getString("standard",null);
+
         loadDialog.startLoad();
 
-        Call<TeacherList> call = jsonPlaceholderApi.showTeachersProfile(standard);
-        call.enqueue(new Callback<TeacherList>() {
+        Call<TeacherProfileResponse> call = jsonPlaceholderApi.showTeachersProfile(standard);
+        call.enqueue(new Callback<TeacherProfileResponse>() {
             @Override
-            public void onResponse(Call<TeacherList> call, Response<TeacherList> response) {
+            public void onResponse(Call<TeacherProfileResponse> call, Response<TeacherProfileResponse> response) {
                 if(!response.isSuccessful())  {
                     Toast.makeText(getContext(),"No students found",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
                     return;
                 }
                 loadDialog.dismissLoad();
-                List<Teacher> teacherList = response.body().getTeacherList();
+                TeacherList teachers = response.body().getTeacherList();
+                List<Teacher> teacherList = teachers.getTeacherList();
                 if(teacherList==null){
                     Toast.makeText(getContext(),"No teachers for this class currently",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     for(Teacher teacher: teacherList){
-                        mlistview.add(new Teacher(teacher.getEmail(),null,null,teacher.getName(),teacher.getMobile(),teacher.getSubject()));
+                        mlistview.add(new Teacher(teacher.getEmail(),null,teacher.getName(),teacher.getMobile(),teacher.getSubject()));
                     }
                     attach_teacherAdapter(mlistview);
                 }
             }
 
             @Override
-            public void onFailure(Call<TeacherList> call, Throwable t) {
+            public void onFailure(Call<TeacherProfileResponse> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 loadDialog.dismissLoad();
             }

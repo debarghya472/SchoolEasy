@@ -7,8 +7,6 @@ public class Teacher {
     private String email;
     @SerializedName("password")
     private String password;
-    @SerializedName("token")
-    private String token;
     @SerializedName("name")
     private String name;
     @SerializedName("mobile")
@@ -18,10 +16,9 @@ public class Teacher {
     @SerializedName("standard")
     private String standard;
 
-    public Teacher(String email, String password, String token, String name, String mobile, String subject) {
+    public Teacher(String email, String password, String name, String mobile, String subject) {
         this.email = email;
         this.password = password;
-        this.token = token;
         this.name = name;
         this.mobile = mobile;
         this.subject = subject;
@@ -37,10 +34,6 @@ public class Teacher {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     public String getName() {

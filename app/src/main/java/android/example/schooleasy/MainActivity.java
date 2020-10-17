@@ -3,8 +3,12 @@ package android.example.schooleasy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.example.schooleasy.ui.Feed.Feed;
+import android.example.schooleasy.ui.discussionForum.DiscussionForum;
 import android.example.schooleasy.ui.eventsCalendar.EventsActivity;
+import android.example.schooleasy.ui.home.HomeFragment;
 import android.example.schooleasy.ui.login.loginSignupActivity;
+import android.example.schooleasy.ui.otherStudents.OtherStudents;
 import android.os.Bundle;
 import android.util.AttributeSet;
 
@@ -12,14 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import androidx.annotation.NonNull;
 
 import androidx.annotation.Nullable;
 
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -46,14 +53,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -65,8 +64,27 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
 
+        ChipNavigationBar bottomNav = findViewById(R.id.bottom_nav);
+
+        bottomNav.setItemSelected(R.id.Home , true);
+        bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i) {
+                switch (i){
+                    case R.id.Home:
+                        break;
+                    case R.id.Feed:
+                        startActivity(new Intent(getApplicationContext(), Feed.class));
+                        break;
+                    case R.id.discussion:
+                        startActivity(new Intent(getApplicationContext(),DiscussionForum.class));
+                        break;
+                }
+            }
+        });
+
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {

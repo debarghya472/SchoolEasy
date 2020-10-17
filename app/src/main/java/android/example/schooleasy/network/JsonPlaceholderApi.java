@@ -1,12 +1,14 @@
-package android.example.schooleasy;
+package android.example.schooleasy.network;
 
+import android.example.schooleasy.dataclass.LoginResponseStudent;
+import android.example.schooleasy.dataclass.LoginResponseTeacher;
 import android.example.schooleasy.dataclass.Parent;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.StudentList;
+import android.example.schooleasy.dataclass.StudentProfileResponse;
 import android.example.schooleasy.dataclass.Teacher;
 import android.example.schooleasy.dataclass.TeacherList;
-
-import java.util.List;
+import android.example.schooleasy.dataclass.TeacherProfileResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,13 +20,13 @@ public interface JsonPlaceholderApi {
 
     //login
     @POST("students/login")
-    Call<Student> loginStudent(@Body Student post);
+    Call<LoginResponseStudent> loginStudent(@Body Student post);
 
     @POST("parents/login")
     Call<Parent> loginParent(@Body Parent post);
 
     @POST("teachers/login")
-    Call<Teacher> loginTeacher(@Body Teacher post);
+    Call<LoginResponseTeacher> loginTeacher(@Body Teacher post);
     //signUp
 
     @POST("students/signup")
@@ -37,8 +39,17 @@ public interface JsonPlaceholderApi {
     Call<Teacher> signUpTeach(@Body Teacher post);
 
     @GET("standards/{standard}/students")
-    Call<StudentList> showStudentsProfile(@Path("standard") String standard);
+    Call<StudentProfileResponse> showStudentsProfile(@Path("standard") String standard);
 
     @GET("standards/{standard}/teachers")
-    Call<TeacherList> showTeachersProfile(@Path("standard") String standard);
+    Call<TeacherProfileResponse> showTeachersProfile(@Path("standard") String standard);
+
+
+    //get subject
+    @GET("subjects/5f8996dbd79b195180f19f9f/all")
+    Call<String> getSubject();
+
+    @GET("standards/{standardid}/students")
+    Call<Student> showStudentProfile();
+
 }

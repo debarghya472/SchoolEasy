@@ -2,7 +2,8 @@ package android.example.schooleasy.ui.otherStudents;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.example.schooleasy.JsonPlaceholderApi;
+import android.example.schooleasy.dataclass.StudentProfileResponse;
+import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.R;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.StudentList;
@@ -52,23 +53,26 @@ public class OtherStudents extends Fragment {
         String standard = info.getString("standard",null);
 
         loadDialog.startLoad();
-        Call<StudentList> call= jsonPlaceholderApi.showStudentsProfile(standard);
-        call.enqueue(new Callback<StudentList>() {
+        Call<StudentProfileResponse> call= jsonPlaceholderApi.showStudentsProfile(standard);
+        call.enqueue(new Callback<StudentProfileResponse>() {
             @Override
-            public void onResponse(Call<StudentList> call, Response<StudentList> response) {
+            public void onResponse(Call<StudentProfileResponse> call, Response<StudentProfileResponse> response) {
                 if(!response.isSuccessful())  {
                     Toast.makeText(getContext(),"No students found",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
                     return;
                 }
                 loadDialog.dismissLoad();
-                List<Student> studentList = response.body().getStudentList();
+                StudentList students = response.body().getStudentList();
+                List<Student> studentList = students.getStudentList();
+
+
                 if(studentList==null){
                     Toast.makeText(getContext(),"No students in this class currently",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     for(Student student: studentList){
-                        mlistview.add(new Student(student.getEmail(),null,null,student.getName(),student.getAge(),null));
+                        mlistview.add(new Student(student.getEmail(),null,student.getName(),student.getAge(),null));
                     }
                     attach_otherStudentsAdapter(mlistview);
                 }
@@ -76,7 +80,7 @@ public class OtherStudents extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<StudentList> call, Throwable t) {
+            public void onFailure(Call<StudentProfileResponse> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 loadDialog.dismissLoad();
             }

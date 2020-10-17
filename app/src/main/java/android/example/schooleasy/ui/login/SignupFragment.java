@@ -2,7 +2,7 @@ package android.example.schooleasy.ui.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.example.schooleasy.JsonPlaceholderApi;
+import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.dataclass.Parent;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.Teacher;
@@ -201,7 +201,7 @@ public class SignupFragment extends Fragment {
         String nameEntered = fullName.getText().toString();
         String standardEntered =standard.getText().toString();
         String ageEntered =age.getText().toString();
-        Student student = new Student(emailEntered,passwordEntered,null,nameEntered,ageEntered,standardEntered);
+        Student student = new Student(emailEntered,passwordEntered,nameEntered,ageEntered,standardEntered);
         Call<Student> call = jsonPlaceholderApi.signUpStud(student);
         call.enqueue(new Callback<Student>() {
             @Override
@@ -269,7 +269,7 @@ public class SignupFragment extends Fragment {
         String nameEntered = fullName.getText().toString();
         String mobileEntered = mobileNo.getText().toString();
         String subjectEntered = subject.getText().toString();
-        Teacher teacher =new Teacher( emailEntered,passwordEntered,null, nameEntered,mobileEntered,subjectEntered);
+        Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,mobileEntered,subjectEntered);
         Call<Teacher> call =jsonPlaceholderApi.signUpTeach(teacher);
         call.enqueue(new Callback<Teacher>() {
             @Override

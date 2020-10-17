@@ -1,26 +1,27 @@
-package android.example.schooleasy.ui.discussionForum;
+package android.example.schooleasy.ui.Feed;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
-import android.example.schooleasy.ui.Feed.Feed;
+import android.example.schooleasy.ui.discussionForum.DiscussionForum;
 import android.os.Bundle;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-public class DiscussionForum extends AppCompatActivity {
+public class Feed extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_discussion_forum);
+        setContentView(R.layout.activity_feed);
+
+        setTitle("Feed");
+
         ChipNavigationBar bottomNav= findViewById(R.id.bottom_nav);
 
-       setTitle("Discussion Forum");
-
-        bottomNav.setItemSelected(R.id.discussion,true);
+        bottomNav.setItemSelected(R.id.Feed,true);
 
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
@@ -30,9 +31,9 @@ public class DiscussionForum extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         break;
                     case R.id.Feed:
-                        startActivity(new Intent(getApplicationContext(), Feed.class));
                         break;
                     case R.id.discussion:
+                        startActivity(new Intent(getApplicationContext(), DiscussionForum.class));
                         break;
                 }
             }

@@ -3,7 +3,10 @@ package android.example.schooleasy.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.example.schooleasy.JsonPlaceholderApi;
+import android.example.schooleasy.dataclass.LoginResponseStudent;
+import android.example.schooleasy.dataclass.LoginResponseTeacher;
+import android.example.schooleasy.dataclass.TeacherProfileResponse;
+import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.R;
 import android.example.schooleasy.dataclass.Parent;
@@ -11,10 +14,8 @@ import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.Teacher;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.Formatter;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -34,23 +35,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.content.Context.WIFI_SERVICE;
 
 public class LoginFragment extends Fragment {
 
@@ -196,18 +185,21 @@ public class LoginFragment extends Fragment {
     private void loginStudent(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
-        Student student =new Student(emailEntered,passwordEntered,null,null,null,null);
-        Call<Student> call =jsonPlaceholderApi.loginStudent(student);
-        call.enqueue(new Callback<Student>() {
+        Student  student =new Student(emailEntered,passwordEntered,null,null,null);
+        Call<LoginResponseStudent> call =jsonPlaceholderApi.loginStudent(student);
+        call.enqueue(new Callback<LoginResponseStudent>() {
             @Override
-            public void onResponse(Call<Student> call, Response<Student> response) {
+            public void onResponse(Call<LoginResponseStudent> call, Response<LoginResponseStudent> response) {
                 if(!response.isSuccessful())  {
                     Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
                     return;
                 }
                 loadDialog.dismissLoad();
-                Student student1 = response.body();
+                assert response.body() != null;
+                String token = response.body().getToken();
+                Log.d("token", token);
+                Student student1 = response.body().getUser();
                 Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
                 SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = info.edit();
@@ -215,7 +207,7 @@ public class LoginFragment extends Fragment {
                 editor.putString("IsStudent","Yes");
                 editor.putString("IsParent","No");
                 editor.putString("IsTeacher","No");
-                editor.putString("token",student1.getToken());
+                editor.putString("token",token);
                 editor.putString("standard",student1.getStandard());
                 editor.apply();
 
@@ -224,7 +216,7 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Student> call, Throwable t) {
+            public void onFailure(Call<LoginResponseStudent> call, Throwable t) {
                 loadDialog.dismissLoad();
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
             }
@@ -275,18 +267,20 @@ public class LoginFragment extends Fragment {
     private void loginTeacher(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
-        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null,null);
-        Call<Teacher> call = jsonPlaceholderApi.loginTeacher(teacher);
-        call.enqueue(new Callback<Teacher>() {
+        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null);
+        Call<LoginResponseTeacher> call = jsonPlaceholderApi.loginTeacher(teacher);
+        call.enqueue(new Callback<LoginResponseTeacher>() {
             @Override
-            public void onResponse(Call<Teacher> call, Response<Teacher> response) {
+            public void onResponse(Call<LoginResponseTeacher> call, Response<LoginResponseTeacher> response) {
                 if(!response.isSuccessful())  {
                     Toast.makeText(getContext(),"User not logged in",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
                     return;
                 }
                 loadDialog.dismissLoad();
-                Teacher teacher1 = response.body();
+                String token = response.body().getToken();
+                Log.d("token", token);
+                Teacher teacher1 = response.body().getUser();
                 Toast.makeText(getContext(),"Logged in",Toast.LENGTH_SHORT).show();
                 SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = info.edit();
@@ -294,7 +288,7 @@ public class LoginFragment extends Fragment {
                 editor.putString("IsParent","No");
                 editor.putString("IsStudent","No");
                 editor.putString("IsTeacher","Yes");
-                editor.putString("token",teacher1.getToken());
+                editor.putString("token",token);
                 editor.putString("subject",teacher1.getSubject());
                 editor.putString("standard",teacher1.getStandard());
                 editor.apply();
@@ -305,7 +299,7 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Teacher> call, Throwable t) {
+            public void onFailure(Call<LoginResponseTeacher> call, Throwable t) {
                 loadDialog.dismissLoad();
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
 

@@ -17,17 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".ui.Feed.Feed"/>
+        <activity android:name=".ui.discussionForum.DiscussionForum" />
         <activity
             android:name=".ui.eventsCalendar.EventsActivity"
-            android:label="@string/title_activity_events">
-
-        </activity>
-
-
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
-
+            android:label="@string/title_activity_events" />
         <activity
             android:name=".ui.login.loginSignupActivity"
             android:screenOrientation="portrait"

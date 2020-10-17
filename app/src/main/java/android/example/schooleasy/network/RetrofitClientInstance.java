@@ -1,6 +1,6 @@
 package android.example.schooleasy.network;
 
-import android.example.schooleasy.JsonPlaceholderApi;
+import android.example.schooleasy.network.JsonPlaceholderApi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

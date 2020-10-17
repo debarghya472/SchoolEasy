@@ -8,6 +8,7 @@
 
 
     <TextView
+        android:id="@+id/standard1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
@@ -16,5 +17,15 @@
         android:textSize="20dp"
         android:gravity="center"/>
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/standard1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#480028EE"
+            android:id="@+id/recycler_view_subject"
+            tools:listitem="@layout/sub_list"/>
+    </RelativeLayout>
 </RelativeLayout>
