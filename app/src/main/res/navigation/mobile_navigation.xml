@@ -11,7 +11,7 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home_student" />
 
-    <fragment
+    <activity
         android:id="@+id/nav_discussion"
         android:name="android.example.schooleasy.ui.discussionForum.DiscussionForum"
         android:label="Discussion Forum"
