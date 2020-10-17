@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
         String isLogged = info.getString("loggedIn","No");
-        if(isLogged=="No"){
-            Intent intent = new Intent(MainActivity.this, loginSignupActivity.class);
-            startActivity(intent);
+        if(isLogged.equals("No")){
+            Toast.makeText(this,"Please Log In",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this,loginSignupActivity.class));
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

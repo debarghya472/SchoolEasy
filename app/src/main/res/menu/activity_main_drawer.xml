@@ -24,6 +24,10 @@
             android:id="@+id/nav_teacher"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Teacher"/>
+        <item
+            android:id="@+id/Nav_profile"
+            android:icon="@drawable/ic_baseline_perm_identity_24"
+            android:title="Profile"/>
 
     </group>
 </menu>

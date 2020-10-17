@@ -32,4 +32,9 @@
         android:name="android.example.schooleasy.ui.teacher.TeacherProfiles"
         android:label="Teacher"
         tools:layout="@layout/fragment_teacher"/>
+    <fragment
+        android:id="@+id/Nav_profile"
+        android:name="android.example.schooleasy.ui.profile.StudentProfile"
+        android:label="Profile"
+        tools:layout="@layout/fragment_student_profile"/>
 </navigation>
