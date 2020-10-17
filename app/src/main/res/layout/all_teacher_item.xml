@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Teacher name"
+            android:id="@+id/teacher_name"
+            android:textSize="30sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Teacher age"
+            android:id="@+id/teacher_age"
+            android:layout_below="@+id/teacher_name"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Teacher email"
+            android:id="@+id/teacher_email"
+            android:layout_below="@+id/teacher_age"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Teacher number"
+            android:id="@+id/teacher_number"
+            android:layout_below="@id/teacher_email"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

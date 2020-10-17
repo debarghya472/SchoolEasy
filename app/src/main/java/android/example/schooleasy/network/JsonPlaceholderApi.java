@@ -31,7 +31,12 @@ public interface JsonPlaceholderApi {
     @POST("teachers/signup")
     Call<Teacher> signUpTeach(@Body Teacher post);
 
+
     //get subject
     @GET("subjects/5f8996dbd79b195180f19f9f/all")
     Call<String> getSubject();
+
+    @GET("standards/{standardid}/students")
+    Call<Student> showStudentProfile();
+
 }
