@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SubjectResponse {
+public class SubjectList {
     @SerializedName("subjects")
     List<Subject> subjectList;
 
