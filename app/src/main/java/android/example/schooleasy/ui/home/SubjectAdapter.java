@@ -2,6 +2,7 @@ package android.example.schooleasy.ui.home;
 
 import android.content.Context;
 import android.example.schooleasy.R;
+import android.example.schooleasy.dataclass.Subject;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.PresHolder> {
 
-    private List<String> listitem;
+    private List<Subject> listitem;
     private Context context;
-    public SubjectAdapter(List<String> listitem, Context context) {
+    public SubjectAdapter(List<Subject> listitem, Context context) {
         this.listitem = listitem;
         this.context = context;
     }
@@ -33,9 +32,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.PresHold
 
     @Override
     public void onBindViewHolder(@NonNull PresHolder holder, int position) {
-        String sub = listitem.get(position);
+        Subject sub = listitem.get(position);
 
-        holder.subname.setText(sub);
+        holder.subname.setText(sub.getSubname());
 
     }
 

@@ -3,12 +3,14 @@ package android.example.schooleasy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.example.schooleasy.dataclass.Standard;
 import android.example.schooleasy.dataclass.StudentProfileResponse;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.Feed.Feed;
 import android.example.schooleasy.ui.discussionForum.DiscussionForumQuestions;
 import android.example.schooleasy.ui.eventsCalendar.EventsActivity;
+import android.example.schooleasy.ui.home.StandardResponse;
 import android.example.schooleasy.ui.login.loginSignupActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -34,6 +36,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,12 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-
-        jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
-
-
 
     }
     @Nullable

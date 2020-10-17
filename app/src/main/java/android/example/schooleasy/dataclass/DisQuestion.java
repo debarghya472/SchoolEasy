@@ -6,13 +6,18 @@ public class DisQuestion {
     @SerializedName("question")
     String question;
     @SerializedName("user")
-    String user;
+    UserDetailsForDis user;
+
+    public DisQuestion(String question, UserDetailsForDis user) {
+        this.question = question;
+        this.user = user;
+    }
 
     public String getQuestion() {
         return question;
     }
 
-    public String getUser() {
+    public UserDetailsForDis getUser() {
         return user;
     }
 }

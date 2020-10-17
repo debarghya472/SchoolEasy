@@ -1,15 +1,19 @@
 package android.example.schooleasy.network;
 
 import android.example.schooleasy.dataclass.DisQuestion;
+import android.example.schooleasy.dataclass.DisQuestionsList;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
 import android.example.schooleasy.dataclass.Parent;
+import android.example.schooleasy.dataclass.Standard;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.StudentList;
 import android.example.schooleasy.dataclass.StudentProfileResponse;
+import android.example.schooleasy.dataclass.Subject;
 import android.example.schooleasy.dataclass.Teacher;
 import android.example.schooleasy.dataclass.TeacherList;
 import android.example.schooleasy.dataclass.TeacherProfileResponse;
+import android.example.schooleasy.ui.home.StandardResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -47,14 +51,19 @@ public interface JsonPlaceholderApi {
 
 
     //get subject
-    @GET("subjects/5f8996dbd79b195180f19f9f/all")
-    Call<String> getSubject();
+    @GET("subjects/{standardId}/all")
+    Call<Subject> getSubject(@Path("standardId") String standardId);
 
     @GET("standards/{standardid}/students")
     Call<Student> showStudentProfile();
 
-    @GET("discussions/5f89c5b3cf7cf851948cfd6a")
-    Call<DisQuestion> getDisQs();
+    //get discussion forum qs
+    @GET("discussions/{standardId}")
+    Call<DisQuestionsList> getDisQs(@Path("standardId") String standardId);
 
 
+
+    //get Standard details
+    @GET("standards/{standard}")
+    Call<StandardResponse> getStandardId(@Path("standard") String standard);
 }
