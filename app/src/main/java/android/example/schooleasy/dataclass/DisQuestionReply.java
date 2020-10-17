@@ -1,7 +1,12 @@
 package android.example.schooleasy.dataclass;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DisQuestionReply {
+    @SerializedName("name")
     private String name;
+
+    @SerializedName("question")
     private String qs;
 
     public String getName() {

@@ -12,13 +12,16 @@ import android.example.schooleasy.R;
 import android.example.schooleasy.dataclass.DisQuestion;
 import android.example.schooleasy.dataclass.DisQuestionReply;
 import android.example.schooleasy.dataclass.DisQuestionsList;
-import android.example.schooleasy.dataclass.Student;
+import android.example.schooleasy.dataclass.Forum;
 import android.example.schooleasy.dataclass.UserDetailsForDis;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.Feed.Feed;
 import android.example.schooleasy.ui.LoadDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -39,18 +42,31 @@ public class DiscussionForumQuestions extends AppCompatActivity {
     private String quest;
     private UserDetailsForDis details;
     private String name;
+    private EditText addQsTxt;
+    private Button sendQsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_forum);
         ChipNavigationBar bottomNav= findViewById(R.id.bottom_nav);
+        addQsTxt=findViewById(R.id.addQs);
+        sendQsBtn=findViewById(R.id.sendQs);
 
         loadDialog= new LoadDialog(this);
         mlistview= new ArrayList<DisQuestionReply>();
         recyclerView = findViewById(R.id.recycler_view_all_questions);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+
+        jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
+
+        SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
+        String standardId = info.getString("StandardId",null);
+        String discId = info.getString("DiscId",null);
+        String token = info.getString("token",null);
 
         setTitle("Discussion Forum");
 
@@ -72,25 +88,54 @@ public class DiscussionForumQuestions extends AppCompatActivity {
             }
         });
 
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        sendQsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String qs = addQsTxt.getText().toString();
+                loadDialog.startLoad();
+                DisQuestionReply question = new DisQuestionReply(null,qs);
+                Call<Void> call = jsonPlaceholderApi.postQuestion(discId,question,"Bearer "+ token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(!response.isSuccessful())  {
+                            Toast.makeText(getApplicationContext(),"Question could not be added",Toast.LENGTH_SHORT).show();
+                            loadDialog.dismissLoad();
+                            return;
+                        }
+                        loadDialog.dismissLoad();
+                        Toast.makeText(getApplicationContext(),"Question Added",Toast.LENGTH_LONG).show();
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
 
-        jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
+                    }
 
-        SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
-        String standardId = info.getString("StandardId",null);
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        loadDialog.dismissLoad();
+                    }
+                });
+            }
+        });
+
+
 
         loadDialog.startLoad();
-        Call<DisQuestionsList> call = jsonPlaceholderApi.getDisQs(standardId);
-        call.enqueue(new Callback<DisQuestionsList>() {
+        Call<Forum> call = jsonPlaceholderApi.getDisQs(discId);
+        call.enqueue(new Callback<Forum>() {
             @Override
-            public void onResponse(Call<DisQuestionsList> call, Response<DisQuestionsList> response) {
+            public void onResponse(Call<Forum> call, Response<Forum> response) {
                 if(!response.isSuccessful())  {
                     Toast.makeText(getApplicationContext(),"No questions found",Toast.LENGTH_SHORT).show();
                     loadDialog.dismissLoad();
                     return;
                 }
                 loadDialog.dismissLoad();
-                List<DisQuestion> questions = response.body().getQuestionList();
+                DisQuestionsList questionsList = response.body().getForum();
+                List<DisQuestion> questions = questionsList.getQuestionList();
+
                 if(questions== null){
                     Toast.makeText(getApplicationContext(),"No questions in the forum",Toast.LENGTH_SHORT).show();
                 }
@@ -108,7 +153,7 @@ public class DiscussionForumQuestions extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DisQuestionsList> call, Throwable t) {
+            public void onFailure(Call<Forum> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                 loadDialog.dismissLoad();
             }
@@ -118,5 +163,7 @@ public class DiscussionForumQuestions extends AppCompatActivity {
     private void attachAdapter(List<DisQuestionReply> list){
         final QuestionAdapter adapter = new QuestionAdapter(list,getApplicationContext());
         recyclerView.setAdapter(adapter);
+
+        
     }
 }
