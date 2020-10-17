@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
     public void getsubject(){
         SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
 
-        Toast.makeText(getContext(),info.getString("StandardId","0"),Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(),info.getString("StandardId","0"),Toast.LENGTH_LONG).show();
         String st=info.getString("StandardId","0");
 
 
@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
                 loadDialog.dismissLoad();
 
                 List<Subject> subjectList = response.body().getSubjectList();
-                
+
                 for(Subject subject : subjectList){
                     mSubList.add(new Subject(subject.getSubname(),subject.getTeacher(),subject.getSubid()));
                 }
