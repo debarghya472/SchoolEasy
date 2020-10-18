@@ -12,6 +12,8 @@
         android:id="@+id/stand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:layout_gravity="center"
         android:paddingTop="50dp"
         android:text="Standard"
@@ -36,6 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingTop="30dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:text="Upload Study Materials"
                 android:textSize="20dp" />
 
@@ -89,9 +93,8 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="16dp">
 
@@ -106,12 +109,15 @@
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
                 android:text="My Study Materials"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="30dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/white_greyish"
                 app:cardCornerRadius="12dp">
 

@@ -16,6 +16,8 @@
             android:id="@+id/question"
             android:padding="10dp"
             android:textSize="25sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="Some Question?"/>
@@ -24,6 +26,7 @@
             android:id="@+id/author"
             android:paddingRight="16dp"
             android:paddingBottom="8dp"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"

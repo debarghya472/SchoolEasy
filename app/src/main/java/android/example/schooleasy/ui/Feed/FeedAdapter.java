@@ -18,6 +18,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private List<FeedData> feedlist;
     private Context context;
 
+    public FeedAdapter(List<FeedData> feedlist, Context context) {
+        this.feedlist = feedlist;
+        this.context = context;
+    }
+
     @NonNull
     @Override
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

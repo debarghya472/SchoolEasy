@@ -20,6 +20,11 @@
                 android:textSize="25dp"
                 android:padding="5dp"
                 android:id="@+id/notice_heading"/>
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
 
             <TextView
                 android:id="@+id/noticeSent"

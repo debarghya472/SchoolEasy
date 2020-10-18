@@ -4,6 +4,7 @@ import android.example.schooleasy.dataclass.DisAnswerList;
 import android.example.schooleasy.dataclass.DisAnswerReply;
 import android.example.schooleasy.dataclass.DisQuestionReply;
 import android.example.schooleasy.dataclass.DisQuestionsList;
+import android.example.schooleasy.dataclass.FeedData;
 import android.example.schooleasy.dataclass.Forum;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
@@ -14,6 +15,7 @@ import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.StudentProfileResponse;
 import android.example.schooleasy.dataclass.Teacher;
 import android.example.schooleasy.dataclass.TeacherProfileResponse;
+import android.example.schooleasy.ui.Feed.FeedDataResponse;
 import android.example.schooleasy.ui.home.StandardResponse;
 import android.example.schooleasy.ui.home.SubjectList;
 
@@ -100,5 +102,11 @@ public interface JsonPlaceholderApi {
 
     @GET("notices/{standard}/getAll")
     Call<NoticeList> getNotices(@Path("standard") String standard);
+
+    //feed
+    @GET("posts/5f8adf8a4554896120743748/get")
+    Call<FeedDataResponse> getFeed();
+    @POST("posts/5f8adf8a4554896120743748/add")
+    Call<FeedData> postFeed(@Body FeedData st,@Header("Authorization" )String header);
 
 }

@@ -57,6 +57,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_info);
+        getWindow().setBackgroundDrawableResource(R.color.background_color);
 
         loadDialog =new LoadDialog(this);
 

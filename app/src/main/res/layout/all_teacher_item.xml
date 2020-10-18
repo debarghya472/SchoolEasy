@@ -16,6 +16,8 @@
             android:id="@+id/teacher_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:text="Teacher name"
             android:textSize="30sp" />
 

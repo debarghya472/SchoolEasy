@@ -13,12 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="Fresh Feeds from SchoolEasy"
         android:textSize="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_feeds"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/intro"
         android:layout_above="@+id/bottom_nav"
@@ -62,6 +61,7 @@
         <EditText
             android:id="@+id/addAns"
             android:layout_width="0dp"
+            android:textColor="#F80000"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:hint="Write here..."
