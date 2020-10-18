@@ -16,4 +16,12 @@
 #### To serve this purpose, your phone and local machine must be connected to the same Wifi.
   
  Now the app will successfully work on your mobile.
+ 
+ ## Credentials
+ For standard 1: Student: Email- darshil@gmail.com
+                          Password- 12345
+                 Teacher: Email- subrata@gmail.com
+                          Password- 12345
+                 Parent: Email- bhavesh@gmail.com
+                         Password- 12345
 
