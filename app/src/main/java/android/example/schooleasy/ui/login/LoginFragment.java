@@ -209,6 +209,9 @@ public class LoginFragment extends Fragment {
                 editor.putString("IsTeacher","No");
                 editor.putString("token",token);
                 editor.putString("standard",student1.getStandard());
+                editor.putString("name",student1.getName());
+                editor.putString("age",student1.getAge());
+                editor.putString("email",student1.getEmail());
                 editor.apply();
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);

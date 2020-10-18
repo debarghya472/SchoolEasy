@@ -1,40 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
-    <RelativeLayout
+    android:layout_margin="10dp"
+    app:cardCornerRadius="24dp">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp">
-    <TextView
-        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/student_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Student name"
+            android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Student name"
-        android:id="@+id/student_name"
-        android:textSize="30sp"/>
-    <TextView
-        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="age:  "/>
+
+        <TextView
+            android:id="@+id/student_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/student_name"
+            android:text="Student age"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Student age"
-        android:id="@+id/student_age"
-        android:layout_below="@+id/student_name"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="email:  "/>
+
+        <TextView
+            android:id="@+id/student_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/student_age"
+            android:text="Student email"
+            android:textSize="20sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Student email"
-        android:id="@+id/student_email"
-        android:layout_below="@+id/student_age"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Student number"
-        android:id="@+id/student_number"
-        android:layout_below="@id/student_email"
-        android:textSize="20sp"/>
-    </RelativeLayout>
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Standard:  "/>
+
+        <TextView
+            android:id="@+id/student_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/student_email"
+            android:text="Student number"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

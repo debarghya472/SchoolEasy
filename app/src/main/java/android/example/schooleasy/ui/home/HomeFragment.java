@@ -1,12 +1,14 @@
 package android.example.schooleasy.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.example.schooleasy.dataclass.Standard;
 import android.example.schooleasy.dataclass.Subject;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
+import android.example.schooleasy.ui.SubjectInfo.SubjectInfoActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,9 +54,9 @@ public class HomeFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_view_subject);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.hasFixedSize();
-        String st=info.getString("standard","0");
+        String stand=info.getString("standard","0");
 
-        textView.setText("Standard "+st);
+        textView.setText("Standard "+stand);
 
         mSubList = new ArrayList<Subject>();
 
@@ -62,7 +64,7 @@ public class HomeFragment extends Fragment {
         jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
 
-        Call<StandardResponse> call1 = jsonPlaceholderApi.getStandardId(st);
+        Call<StandardResponse> call1 = jsonPlaceholderApi.getStandardId(stand);
         call1.enqueue(new Callback<StandardResponse>() {
             @Override
             public void onResponse(Call<StandardResponse> call, Response<StandardResponse> response) {
@@ -87,7 +89,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        getsubject();
+        getsubject(stand);
 
 
 //        mSubList.add(0,"History");
@@ -98,12 +100,25 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-    private void attachAdapter(List<Subject> list){
+    private void attachAdapter(List<Subject> list,String s,String stand){
 
         final SubjectAdapter adapter = new SubjectAdapter(list,getActivity());
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new SubjectAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Subject subject) {
+                Intent intent = new Intent(getActivity(), SubjectInfoActivity.class);
+                intent.putExtra("subname",subject.getSubname());
+                intent.putExtra("Standard",s);
+                intent.putExtra("Stand",stand);
+                startActivity(intent);
+            }
+        });
+
+
     }
-    public void getsubject(){
+    public void getsubject(String stand){
         SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
 
 //        Toast.makeText(getContext(),info.getString("StandardId","0"),Toast.LENGTH_LONG).show();
@@ -127,7 +142,7 @@ public class HomeFragment extends Fragment {
                 for(Subject subject : subjectList){
                     mSubList.add(new Subject(subject.getSubname(),subject.getTeacher(),subject.getSubid()));
                 }
-                attachAdapter(mSubList);
+                attachAdapter(mSubList,st,stand);
 
             }
 

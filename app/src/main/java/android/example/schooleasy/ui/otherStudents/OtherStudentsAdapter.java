@@ -38,6 +38,7 @@ public class OtherStudentsAdapter extends RecyclerView.Adapter<OtherStudentsAdap
         holder.stud_name.setText(student.getName());
         holder.stud_email.setText(student.getEmail());
         holder.stud_age.setText(student.getAge());
+        holder.stud_number.setText(student.getStandard());
     }
 
     @Override
