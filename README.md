@@ -37,10 +37,12 @@
   
 #### To serve this purpose, your phone and local machine must be connected to the same Wifi.
 
-## Backend repository link
-https://github.com/Darshilp326/SchoolEasy.git
   
  Now the app will successfully work on your mobile.
+
+## Backend repository link
+https://github.com/Darshilp326/SchoolEasy.git
+
  
  ## Credentials
  For standard 1: 
