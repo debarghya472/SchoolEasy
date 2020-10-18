@@ -195,6 +195,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
             Uri uri =data.getData();
+            //String path = uri.getPath();
 
             file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+uri.getPath());
             textView.setText(file.getName());

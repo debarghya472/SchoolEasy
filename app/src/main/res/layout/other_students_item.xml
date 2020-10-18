@@ -24,19 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="age:  "/>
 
-        <TextView
-            android:id="@+id/student_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/student_name"
-            android:text="Student age"
-            android:textSize="20sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -46,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="email:  "/>
+            android:text="Email:  "/>
 
         <TextView
             android:id="@+id/student_email"
@@ -67,11 +55,11 @@
             android:text="Standard:  "/>
 
         <TextView
-            android:id="@+id/student_number"
+            android:id="@+id/student_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/student_email"
-            android:text="Student number"
+            android:text="Standard"
             android:textSize="20sp" />
     </LinearLayout>
 

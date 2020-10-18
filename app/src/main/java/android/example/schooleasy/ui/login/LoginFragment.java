@@ -185,7 +185,7 @@ public class LoginFragment extends Fragment {
     private void loginStudent(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
-        Student  student =new Student(emailEntered,passwordEntered,null,null,null);
+        Student  student =new Student(emailEntered,passwordEntered,null,null);
         Call<LoginResponseStudent> call =jsonPlaceholderApi.loginStudent(student);
         call.enqueue(new Callback<LoginResponseStudent>() {
             @Override
@@ -210,7 +210,6 @@ public class LoginFragment extends Fragment {
                 editor.putString("token",token);
                 editor.putString("standard",student1.getStandard());
                 editor.putString("name",student1.getName());
-                editor.putString("age",student1.getAge());
                 editor.putString("email",student1.getEmail());
                 editor.apply();
 
@@ -270,7 +269,7 @@ public class LoginFragment extends Fragment {
     private void loginTeacher(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
-        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null,null);
+        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null);
         Call<LoginResponseTeacher> call = jsonPlaceholderApi.loginTeacher(teacher);
         call.enqueue(new Callback<LoginResponseTeacher>() {
             @Override

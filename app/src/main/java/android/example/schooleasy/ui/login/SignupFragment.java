@@ -201,7 +201,7 @@ public class SignupFragment extends Fragment {
         String nameEntered = fullName.getText().toString();
         String standardEntered =standard.getText().toString();
         String ageEntered =age.getText().toString();
-        Student student = new Student(emailEntered,passwordEntered,nameEntered,ageEntered,standardEntered);
+        Student student = new Student(emailEntered,passwordEntered,nameEntered,standardEntered);
         Call<Student> call = jsonPlaceholderApi.signUpStud(student);
         call.enqueue(new Callback<Student>() {
             @Override
@@ -267,10 +267,9 @@ public class SignupFragment extends Fragment {
         String emailEntered = userEmailId.getText().toString();
         String passwordEntered= userPassword.getText().toString();
         String nameEntered = fullName.getText().toString();
-        String mobileEntered = mobileNo.getText().toString();
         String subjectEntered = subject.getText().toString();
         String standardEntered = standard.getText().toString();
-        Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,mobileEntered,subjectEntered,standardEntered);
+        Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,subjectEntered,standardEntered);
         Call<Teacher> call =jsonPlaceholderApi.signUpTeach(teacher);
         call.enqueue(new Callback<Teacher>() {
             @Override

@@ -37,7 +37,6 @@ public class OtherStudentsAdapter extends RecyclerView.Adapter<OtherStudentsAdap
         //holder.stud_number.setText(student.);
         holder.stud_name.setText(student.getName());
         holder.stud_email.setText(student.getEmail());
-        holder.stud_age.setText(student.getAge());
         holder.stud_number.setText(student.getStandard());
     }
 
@@ -47,16 +46,14 @@ public class OtherStudentsAdapter extends RecyclerView.Adapter<OtherStudentsAdap
     }
     public class OtherStudentsHolder extends RecyclerView.ViewHolder{
         private TextView stud_name;
-        private TextView stud_age;
         private TextView stud_email;
         private TextView stud_number;
 
         public OtherStudentsHolder(@NonNull View itemView) {
             super(itemView);
-            stud_age=itemView.findViewById(R.id.student_age);
             stud_email=itemView.findViewById(R.id.student_email);
             stud_name=itemView.findViewById(R.id.student_name);
-            stud_number=itemView.findViewById(R.id.student_number);
+            stud_number=itemView.findViewById(R.id.student_standard);
         }
     }
 }

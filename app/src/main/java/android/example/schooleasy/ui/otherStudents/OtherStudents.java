@@ -72,7 +72,7 @@ public class OtherStudents extends Fragment {
                 }
                 else{
                     for(Student student: studentList){
-                        mlistview.add(new Student(student.getEmail(),null,student.getName(),student.getAge(), student.getStandard()));
+                        mlistview.add(new Student(student.getEmail(),null,student.getName(), student.getStandard()));
                     }
                     attach_otherStudentsAdapter(mlistview);
                 }

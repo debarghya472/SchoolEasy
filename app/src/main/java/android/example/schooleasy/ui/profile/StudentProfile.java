@@ -31,7 +31,6 @@ public class StudentProfile extends Fragment {
         String name =info.getString("name",null);
         String email =info.getString("email",null);
         String standard =info.getString("standard",null);
-        String age =info.getString("age",null);
 
         TextView role =root.findViewById(R.id.role);
         TextView name1 =root.findViewById(R.id.name);
@@ -41,7 +40,6 @@ public class StudentProfile extends Fragment {
 
         role.setText("Role:  Student");
         name1.setText("Name:  "+name);
-        age1.setText("Age:  "+age);
         email1.setText("Email:  "+email);
         standard1.setText("Standard:  "+standard);
 
