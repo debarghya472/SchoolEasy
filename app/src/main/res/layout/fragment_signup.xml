@@ -155,7 +155,7 @@
                 android:drawableLeft="@drawable/ic_class"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:hint="Standard"
+                android:hint="Standard(Only 1,2,3)"
                 android:inputType="phone"
                 android:padding="10dp"
                 android:singleLine="true"
