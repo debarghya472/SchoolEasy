@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:text="Standard XII"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="29dp"
         android:gravity="center"/>
 
     <RelativeLayout

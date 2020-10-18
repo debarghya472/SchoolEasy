@@ -50,6 +50,7 @@ public class DiscussionForumQuestions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_forum);
+        getWindow().setBackgroundDrawableResource(R.color.background_color);
         ChipNavigationBar bottomNav= findViewById(R.id.bottom_nav);
         addQsTxt=findViewById(R.id.addQs);
         sendQsBtn=findViewById(R.id.sendQs);
