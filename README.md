@@ -36,6 +36,9 @@
   In this class change the part "10.0.2.2" of the BASE_URL to the IP address of the wifi being used
   
 #### To serve this purpose, your phone and local machine must be connected to the same Wifi.
+
+## Backend repository link
+https://github.com/Darshilp326/SchoolEasy.git
   
  Now the app will successfully work on your mobile.
  
