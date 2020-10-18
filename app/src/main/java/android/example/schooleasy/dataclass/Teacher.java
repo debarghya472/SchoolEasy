@@ -9,18 +9,15 @@ public class Teacher {
     private String password;
     @SerializedName("name")
     private String name;
-    @SerializedName("mobile")
-    private String mobile;
     @SerializedName("subject")
     private String subject;
     @SerializedName("standard")
     private String standard;
 
-    public Teacher(String email, String password, String name, String mobile, String subject, String standard) {
+    public Teacher(String email, String password, String name, String subject, String standard) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.mobile = mobile;
         this.subject = subject;
         this.standard=standard;
     }
@@ -39,10 +36,6 @@ public class Teacher {
 
     public String getName() {
         return name;
-    }
-
-    public String getMobile() {
-        return mobile;
     }
 
     public String getSubject() {

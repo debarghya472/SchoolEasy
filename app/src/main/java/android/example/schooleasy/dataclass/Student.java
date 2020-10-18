@@ -9,8 +9,6 @@ public class Student {
     private String password;
     @SerializedName("name")
     private String name;
-    @SerializedName("age")
-    private String age;
     @SerializedName("standard")
     private String standard;
 
@@ -20,15 +18,12 @@ public class Student {
 
     public String getName() { return name; }
 
-    public String getAge() { return age; }
-
     public String getStandard() { return standard; }
 
-    public Student(String email, String password, String name, String age, String standard) {
+    public Student(String email, String password, String name, String standard) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.age = age;
         this.standard = standard;
     }
 }

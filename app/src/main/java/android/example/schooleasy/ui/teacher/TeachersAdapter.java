@@ -35,6 +35,7 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.Teache
         //holder.teach_number.setText(teacher.);
         holder.teach_name.setText(teacher.getName());
         holder.teach_email.setText(teacher.getEmail());
+        holder.teach_standard.setText(teacher.getStandard());
         //holder.teach_age.setText(teacher.);
 
 
@@ -47,16 +48,14 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.Teache
 
     public class TeachersViewHolder extends RecyclerView.ViewHolder{
         private TextView teach_name;
-        private TextView teach_age;
         private TextView teach_email;
-        private TextView teach_number;
+        private TextView teach_standard;
 
         public TeachersViewHolder(@NonNull View itemView) {
             super(itemView);
-            teach_age=itemView.findViewById(R.id.teacher_age);
             teach_email=itemView.findViewById(R.id.teacher_email);
             teach_name=itemView.findViewById(R.id.teacher_name);
-            teach_number=itemView.findViewById(R.id.teacher_number);
+            teach_standard=itemView.findViewById(R.id.teacher_standard);
         }
     }
 }
