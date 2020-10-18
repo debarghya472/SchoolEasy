@@ -72,7 +72,7 @@ public class TeacherProfiles extends Fragment {
                 }
                 else{
                     for(Teacher teacher: teacherList){
-                        mlistview.add(new Teacher(teacher.getEmail(),null,teacher.getName(),teacher.getMobile(),teacher.getSubject()));
+                        mlistview.add(new Teacher(teacher.getEmail(),null,teacher.getName(),teacher.getMobile(),teacher.getSubject(),null));
                     }
                     attach_teacherAdapter(mlistview);
                 }
