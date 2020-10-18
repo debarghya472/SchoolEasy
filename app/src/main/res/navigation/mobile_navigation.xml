@@ -17,6 +17,13 @@
         android:label="Discussion Forum"
         tools:layout="@layout/fragment_discussion" />
 
+
+    <fragment
+        android:id="@+id/nav_notice"
+        android:name="android.example.schooleasy.ui.NoticeBoardFragment"
+        android:label="Notice Board"
+        tools:layout="@layout/fragment_notice"/>
+
     <fragment
         android:id="@+id/nav_timetable"
         android:name="android.example.schooleasy.ui.timetable.Timetable"
