@@ -19,6 +19,7 @@ import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.Feed.Feed;
 import android.example.schooleasy.ui.LoadDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +65,6 @@ public class DiscussionForumQuestions extends AppCompatActivity {
         jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
         SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
-        String standardId = info.getString("StandardId",null);
         String discId = info.getString("DiscId",null);
         String token = info.getString("token",null);
 
@@ -93,7 +93,7 @@ public class DiscussionForumQuestions extends AppCompatActivity {
             public void onClick(View v) {
                 String qs = addQsTxt.getText().toString();
                 loadDialog.startLoad();
-                DisQuestionReply question = new DisQuestionReply(null,qs);
+                DisQuestionReply question = new DisQuestionReply(null,qs,null);
                 Call<Void> call = jsonPlaceholderApi.postQuestion(discId,question,"Bearer "+ token);
                 call.enqueue(new Callback<Void>() {
                     @Override
@@ -144,7 +144,8 @@ public class DiscussionForumQuestions extends AppCompatActivity {
                         details = question.getUser();
                         quest=question.getQuestion();
                         name = details.getName();
-                        mlistview.add(new DisQuestionReply(name,quest));
+                        String qsId = question.getQuesId();
+                        mlistview.add(new DisQuestionReply(name,quest,qsId));
                     }
                 }
 
@@ -164,6 +165,16 @@ public class DiscussionForumQuestions extends AppCompatActivity {
         final QuestionAdapter adapter = new QuestionAdapter(list,getApplicationContext());
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new QuestionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DisQuestionReply disQuestionReply) {
+                Intent intent = new Intent(getApplicationContext(),DicussionForumAnswers.class);
+                String quesId = disQuestionReply.getQsId();
+                intent.putExtra("qsId",quesId);
+
+                startActivity(intent);
+            }
+        });
         
     }
 }

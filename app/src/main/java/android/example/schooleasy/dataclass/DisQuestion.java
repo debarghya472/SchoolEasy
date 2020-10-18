@@ -7,10 +7,16 @@ public class DisQuestion {
     String question;
     @SerializedName("user")
     UserDetailsForDis user;
+    @SerializedName("_id")
+    String quesId;
 
     public DisQuestion(String question, UserDetailsForDis user) {
         this.question = question;
         this.user = user;
+    }
+
+    public String getQuesId() {
+        return quesId;
     }
 
     public String getQuestion() {

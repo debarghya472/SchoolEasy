@@ -19,6 +19,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Quseti
 
     List<DisQuestionReply> disQusetions;
     Context context;
+    private OnItemClickListener listener;
 
     public QuestionAdapter(List<DisQuestionReply> disQusetions, Context context) {
         this.disQusetions = disQusetions;
@@ -53,6 +54,23 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Quseti
 
             question=itemView.findViewById(R.id.question);
             user = itemView.findViewById(R.id.author);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(disQusetions.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(DisQuestionReply reply);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

@@ -3,6 +3,7 @@ package android.example.schooleasy.ui.discussionForum;
 import android.content.Context;
 import android.example.schooleasy.R;
 import android.example.schooleasy.dataclass.DisAnswer;
+import android.example.schooleasy.dataclass.DisAnswerReply;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,10 @@ import java.util.List;
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerHolder> {
 
 
-    List<DisAnswer> disAnswers;
+    List<DisAnswerReply> disAnswers;
     Context context;
 
-    public AnswerAdapter(List<DisAnswer> disAnswers, Context context) {
+    public AnswerAdapter(List<DisAnswerReply> disAnswers, Context context) {
         this.disAnswers = disAnswers;
         this.context = context;
     }
@@ -34,9 +35,9 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerHold
 
     @Override
     public void onBindViewHolder(@NonNull AnswerHolder holder, int position) {
-        DisAnswer disAnswer =disAnswers.get(position);
+        DisAnswerReply disAnswer =disAnswers.get(position);
         holder.answer.setText(disAnswer.getAnswer());
-        holder.user.setText(disAnswer.getUser());
+        holder.user.setText(disAnswer.getUserName());
     }
 
     @Override

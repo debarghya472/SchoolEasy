@@ -1,5 +1,7 @@
 package android.example.schooleasy.network;
 
+import android.example.schooleasy.dataclass.DisAnswerList;
+import android.example.schooleasy.dataclass.DisAnswerReply;
 import android.example.schooleasy.dataclass.DisQuestionReply;
 import android.example.schooleasy.dataclass.DisQuestionsList;
 import android.example.schooleasy.dataclass.Forum;
@@ -63,6 +65,12 @@ public interface JsonPlaceholderApi {
 
     @POST("discussions/{forumId}/question/add")
     Call<Void> postQuestion(@Path("forumId") String forumId, @Body DisQuestionReply question,@Header("Authorization" )String header);
+
+    @GET("discussions/{qsId}/answer")
+    Call<DisAnswerList> getDisAns(@Path("qsId") String qsId);
+
+    @POST("discussions/{qsId}/answer")
+    Call<Void> postAnswer(@Path("qsId") String qsId, @Body DisAnswerReply answer,@Header("Authorization" )String header);
 
     //get Standard details
     @GET("standards/{standard}")
