@@ -2,10 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:backgroundTint="#DCEEEEEE"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#DCEEEEEE"
     tools:context=".ui.Feed.Feed">
+    <TextView
+        android:id="@+id/intro"
+        android:paddingLeft="35dp"
+        android:paddingTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Fresh Feeds from SchoolEasy"
+        android:textSize="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_feeds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/intro"
+        android:layout_above="@+id/bottom_nav"
+        tools:listitem="@layout/list_feed_item"/>
+
+
+    <LinearLayout
+        android:id="@+id/click"
+        android:layout_margin="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal">
+        <ImageView
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plus"/>
+        <TextView
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/postAns"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_nav"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/addAns"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Write here..."
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/sendAns"
+            android:background="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:text="Post"
+            android:textSize="20dp"
+            android:layout_width="wrap_content" />
+    </LinearLayout>
+
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"

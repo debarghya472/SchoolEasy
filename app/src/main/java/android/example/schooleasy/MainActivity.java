@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setBackgroundDrawableResource(R.color.background_color);
         SharedPreferences info = getApplicationContext().getSharedPreferences("info", Context.MODE_PRIVATE);
         String isLogged = info.getString("loggedIn","No");
         if(isLogged.equals("No")){

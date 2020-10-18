@@ -10,6 +10,7 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setBackgroundDrawableResource(R.color.background_color);
         setContentView(R.layout.activity_events);
         customCalenderView=findViewById(R.id.custom_calendar_view);
     }

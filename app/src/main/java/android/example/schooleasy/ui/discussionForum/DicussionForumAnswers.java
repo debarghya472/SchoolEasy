@@ -49,6 +49,7 @@ public class DicussionForumAnswers extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dicussion_forum_answers);
+        getWindow().setBackgroundDrawableResource(R.color.background_color);
         ChipNavigationBar bottomNav= findViewById(R.id.bottom_nav);
         addAnsTxt=findViewById(R.id.addAns);
         sendAnsBtn=findViewById(R.id.sendAns);
