@@ -270,7 +270,7 @@ public class LoginFragment extends Fragment {
     private void loginTeacher(){
         String emailEntered = email.getText().toString();
         String passwordEntered = password.getText().toString();
-        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null);
+        Teacher teacher =new Teacher(emailEntered,passwordEntered,null,null,null,null);
         Call<LoginResponseTeacher> call = jsonPlaceholderApi.loginTeacher(teacher);
         call.enqueue(new Callback<LoginResponseTeacher>() {
             @Override

@@ -7,6 +7,8 @@ import android.example.schooleasy.dataclass.DisQuestionsList;
 import android.example.schooleasy.dataclass.Forum;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
+import android.example.schooleasy.dataclass.NoticeDetails;
+import android.example.schooleasy.dataclass.NoticeList;
 import android.example.schooleasy.dataclass.Parent;
 import android.example.schooleasy.dataclass.Student;
 import android.example.schooleasy.dataclass.StudentProfileResponse;
@@ -92,5 +94,11 @@ public interface JsonPlaceholderApi {
     Call<ResponseBody> uploadFile(@Part MultipartBody.Part file,
                                   @Part("text")RequestBody text,
                                   @Path("standardId")String standardId);
+
+    @POST("notices/{standard}/add")
+    Call<Void> addNotice(@Path("standard") String standard, @Body NoticeDetails details,@Header("Authorization" )String header);
+
+    @GET("notices/{standard}/getAll")
+    Call<NoticeList> getNotices(@Path("standard") String standard);
 
 }

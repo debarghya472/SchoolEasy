@@ -174,8 +174,8 @@ public class SignupFragment extends Fragment {
                     fullName.setError("Name not entered");
                     return;
                 }
-                if (!studCheckbox.isChecked() && !parCheckbox.isChecked() || studCheckbox.isChecked() && parCheckbox.isChecked()) {
-                    Toast.makeText(context, "Select doctor or patient", Toast.LENGTH_SHORT).show();
+                if (!studCheckbox.isChecked() && !parCheckbox.isChecked() && !teaCheckbox.isChecked() ) {
+                    Toast.makeText(context, "Select student, parent or teacher", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -269,7 +269,8 @@ public class SignupFragment extends Fragment {
         String nameEntered = fullName.getText().toString();
         String mobileEntered = mobileNo.getText().toString();
         String subjectEntered = subject.getText().toString();
-        Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,mobileEntered,subjectEntered);
+        String standardEntered = standard.getText().toString();
+        Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,mobileEntered,subjectEntered,standardEntered);
         Call<Teacher> call =jsonPlaceholderApi.signUpTeach(teacher);
         call.enqueue(new Callback<Teacher>() {
             @Override

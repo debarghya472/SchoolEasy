@@ -16,12 +16,13 @@ public class Teacher {
     @SerializedName("standard")
     private String standard;
 
-    public Teacher(String email, String password, String name, String mobile, String subject) {
+    public Teacher(String email, String password, String name, String mobile, String subject, String standard) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.mobile = mobile;
         this.subject = subject;
+        this.standard=standard;
     }
 
     public String getStandard() {
