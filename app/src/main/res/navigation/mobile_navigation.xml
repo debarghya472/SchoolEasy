@@ -13,7 +13,7 @@
 
     <activity
         android:id="@+id/nav_discussion"
-        android:name="android.example.schooleasy.ui.discussionForum.DiscussionForum"
+        android:name="android.example.schooleasy.ui.discussionForum.DiscussionForumQuestions"
         android:label="Discussion Forum"
         tools:layout="@layout/fragment_discussion" />
 

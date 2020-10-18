@@ -2,18 +2,15 @@ package android.example.schooleasy.dataclass;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class DisAnswer {
 
-    @SerializedName("answer")
-    String answer;
-    @SerializedName("user")
-    String user;
+    @SerializedName("answers")
+    List<Answer> answerList;
 
-    public String getAnswer() {
-        return answer;
+    public List<Answer> getAnswerList() {
+        return answerList;
     }
 
-    public String getUser() {
-        return user;
-    }
 }

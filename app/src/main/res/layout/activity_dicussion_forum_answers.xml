@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:backgroundTint="#ABEEEEEE"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.discussionForum.DiscussionForumQuestions">
+    android:backgroundTint="#ABEEEEEE"
+    tools:context=".ui.discussionForum.DicussionForumAnswers">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/postQs"
+        android:id="@+id/postAns"
         android:layout_above="@+id/bottom_nav">
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Question"
-            android:id="@+id/addQs"
+            android:hint="Enter Answer"
+            android:id="@+id/addAns"
             android:layout_weight="2"
             android:textSize="20dp"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/sendQs"
+            android:id="@+id/sendAns"
             android:text="Send"
             android:textSize="20dp"
             />
@@ -33,8 +34,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/forumQs"
-        android:layout_above="@+id/postQs">
+        android:layout_above="@+id/postAns">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -45,13 +45,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="#480028EE"
-                    android:id="@+id/recycler_view_all_questions"
-                    tools:listitem="@layout/question_item"/>
+                    android:id="@+id/recycler_view_all_answers"
+                    tools:listitem="@layout/answer_item"/>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </ScrollView>
     </LinearLayout>
-
-
 
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
@@ -64,5 +62,6 @@
         android:padding="8dp"
         app:cnb_menuResource="@menu/menu_bottom"
         tools:ignore="MissingConstraints" />
+
 
 </RelativeLayout>

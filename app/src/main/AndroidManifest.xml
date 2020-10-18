@@ -15,9 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ui.SubjectInfo.SubjectInfoActivity"></activity>
         <activity android:name=".ui.Feed.Feed" />
-        <activity android:name=".ui.discussionForum.DiscussionForum" />
+
+
+        <activity android:name=".ui.discussionForum.DicussionForumAnswers"></activity>
+
+        <activity android:name=".ui.discussionForum.DiscussionForumQuestions" />
+
         <activity
             android:name=".ui.eventsCalendar.EventsActivity"
             android:label="@string/title_activity_events" />

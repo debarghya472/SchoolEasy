@@ -1,15 +1,16 @@
 package android.example.schooleasy.network;
 
+import android.example.schooleasy.dataclass.DisAnswerList;
+import android.example.schooleasy.dataclass.DisAnswerReply;
+import android.example.schooleasy.dataclass.DisQuestionReply;
+import android.example.schooleasy.dataclass.DisQuestionsList;
+import android.example.schooleasy.dataclass.Forum;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
 import android.example.schooleasy.dataclass.Parent;
-import android.example.schooleasy.dataclass.Standard;
 import android.example.schooleasy.dataclass.Student;
-import android.example.schooleasy.dataclass.StudentList;
 import android.example.schooleasy.dataclass.StudentProfileResponse;
-import android.example.schooleasy.dataclass.Subject;
 import android.example.schooleasy.dataclass.Teacher;
-import android.example.schooleasy.dataclass.TeacherList;
 import android.example.schooleasy.dataclass.TeacherProfileResponse;
 import android.example.schooleasy.ui.home.StandardResponse;
 import android.example.schooleasy.ui.home.SubjectList;
@@ -21,7 +22,11 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+
 import retrofit2.http.Multipart;
+
+import retrofit2.http.Header;
+
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -62,9 +67,24 @@ public interface JsonPlaceholderApi {
     @GET("standards/{standardid}/students")
     Call<Student> showStudentProfile();
 
+    //get discussion forum qs
+    @GET("discussions/{forumId}")
+    Call<Forum> getDisQs(@Path("forumId") String forumId);
+
+
+    @POST("discussions/{forumId}/question/add")
+    Call<Void> postQuestion(@Path("forumId") String forumId, @Body DisQuestionReply question,@Header("Authorization" )String header);
+
+    @GET("discussions/{qsId}/answer")
+    Call<DisAnswerList> getDisAns(@Path("qsId") String qsId);
+
+    @POST("discussions/{qsId}/answer")
+    Call<Void> postAnswer(@Path("qsId") String qsId, @Body DisAnswerReply answer,@Header("Authorization" )String header);
+
     //get Standard details
     @GET("standards/{standard}")
     Call<StandardResponse> getStandardId(@Path("standard") String standard);
+
 
     //study materials
     @Multipart

@@ -76,9 +76,12 @@ public class HomeFragment extends Fragment {
 
                 Standard standard =response.body().getStandard();
                 String standardId = standard.getStandardId();
+                String discussionForumId = standard.getDiscId();
                 SharedPreferences info = getContext().getSharedPreferences("info",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor =info.edit();
                 editor.putString("StandardId",standardId);
+                editor.putString("DiscId",discussionForumId);
+                Log.d("forum", "id is "+discussionForumId);
                 editor.apply();
             }
 

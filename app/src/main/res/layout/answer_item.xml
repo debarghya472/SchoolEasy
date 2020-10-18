@@ -18,7 +18,7 @@
             android:textSize="25sp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="Some Question?"/>
+            android:text="Some Answer"/>
 
         <TextView
             android:id="@+id/author1"

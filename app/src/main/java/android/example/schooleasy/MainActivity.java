@@ -3,12 +3,15 @@ package android.example.schooleasy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.example.schooleasy.dataclass.Standard;
+import android.example.schooleasy.dataclass.StudentProfileResponse;
+import android.example.schooleasy.network.JsonPlaceholderApi;
+import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.Feed.Feed;
-import android.example.schooleasy.ui.discussionForum.DiscussionForum;
+import android.example.schooleasy.ui.discussionForum.DiscussionForumQuestions;
 import android.example.schooleasy.ui.eventsCalendar.EventsActivity;
-import android.example.schooleasy.ui.home.HomeFragment;
+import android.example.schooleasy.ui.home.StandardResponse;
 import android.example.schooleasy.ui.login.loginSignupActivity;
-import android.example.schooleasy.ui.otherStudents.OtherStudents;
 import android.os.Bundle;
 import android.util.AttributeSet;
 
@@ -17,9 +20,6 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 
 import androidx.annotation.Nullable;
 
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,11 +35,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.zip.Inflater;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private JsonPlaceholderApi jsonPlaceholderApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Feed.class));
                         break;
                     case R.id.discussion:
-                        startActivity(new Intent(getApplicationContext(),DiscussionForum.class));
+                        startActivity(new Intent(getApplicationContext(), DiscussionForumQuestions.class));
                         break;
                 }
             }
