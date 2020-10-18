@@ -104,9 +104,9 @@ public interface JsonPlaceholderApi {
     Call<NoticeList> getNotices(@Path("standard") String standard);
 
     //feed
-    @GET("posts/5f8adf8a4554896120743748/get")
+    @GET("posts/5f8c61a8db99b1224469e6b9/get")
     Call<FeedDataResponse> getFeed();
-    @POST("posts/5f8adf8a4554896120743748/add")
+    @POST("posts/5f8c61a8db99b1224469e6b9/add")
     Call<FeedData> postFeed(@Body FeedData st,@Header("Authorization" )String header);
 
 }
