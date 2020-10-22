@@ -92,10 +92,9 @@ public interface JsonPlaceholderApi {
 
     //study materials
     @Multipart
-    @POST("materials/{standardId}/add")
+    @POST("materials/5f8d5ec9556822d9a05d47a9/add")
     Call<ResponseBody> uploadFile(@Part MultipartBody.Part file,
-                                  @Part("text")RequestBody text,
-                                  @Path("standardId")String standardId);
+                                  @Part("text")RequestBody text);
 
     @POST("notices/{standard}/add")
     Call<Void> addNotice(@Path("standard") String standard, @Body NoticeDetails details,@Header("Authorization" )String header);

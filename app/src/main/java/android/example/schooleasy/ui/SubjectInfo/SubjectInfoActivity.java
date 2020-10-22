@@ -18,6 +18,7 @@ import android.example.schooleasy.R;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,6 +54,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
     private JsonPlaceholderApi jsonPlaceholderApi;
     private LoadDialog loadDialog;
     private LinearLayout ll;
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +62,24 @@ public class SubjectInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subject_info);
         getWindow().setBackgroundDrawableResource(R.color.background_color);
 
-        loadDialog =new LoadDialog(this);
+        loadDialog = new LoadDialog(this);
 
-        ll=(LinearLayout)findViewById(R.id.view_mat);
-        standard1 =this.findViewById(R.id.stand);
+        ll = (LinearLayout) findViewById(R.id.view_mat);
+        standard1 = this.findViewById(R.id.stand);
 
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         String subName = intent.getStringExtra("subname");
-        String standard =intent.getStringExtra("Standard");
-        String stand =intent.getStringExtra("Stand");
+        String standard = intent.getStringExtra("Standard");
+        String stand = intent.getStringExtra("Stand");
 
-        standard1.setText("Standard "+stand);
+        standard1.setText("Standard " + stand);
 
         SharedPreferences info = this.getSharedPreferences("info", MODE_PRIVATE);
         setTitle(subName);
 
         Button bn = findViewById(R.id.but);
-        textView =findViewById(R.id.text);
-        upload =findViewById(R.id.Upload);
+        textView = findViewById(R.id.text);
+        upload = findViewById(R.id.Upload);
 
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +121,10 @@ public class SubjectInfoActivity extends AppCompatActivity {
                 Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
                 jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
+                String path = FilePath.getPath(getApplication(), filePath);
+
+                file=new File(path);
+
                 RequestBody textname =RequestBody.create(MediaType.parse("multipart/form-data"),"homework-1");
 
 
@@ -125,7 +132,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
                 MultipartBody.Part requestFile =MultipartBody.Part.createFormData("materials",file.getName(),fileitem);
 
                 loadDialog.startLoad();
-                Call<ResponseBody> call = jsonPlaceholderApi.uploadFile(requestFile,textname,standard);
+                Call<ResponseBody> call = jsonPlaceholderApi.uploadFile(requestFile,textname);
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -133,7 +140,6 @@ public class SubjectInfoActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"File Upload successfully",Toast.LENGTH_LONG).show();
                             loadDialog.dismissLoad();
                         }
-                        Toast.makeText(getApplicationContext(),"Cannot Upload File",Toast.LENGTH_LONG).show();
                         loadDialog.dismissLoad();
                     }
 
@@ -170,7 +176,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
         int result = ContextCompat.checkSelfPermission(SubjectInfoActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE);
         if(result== PackageManager.PERMISSION_GRANTED){
             return true;
-        }else
+        } else
             return false;
 
     }
@@ -193,15 +199,9 @@ public class SubjectInfoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Uri uri =data.getData();
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data.getData()!=null){
+            filePath =data.getData();
             //String path = uri.getPath();
-
-            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+uri.getPath());
-            textView.setText(file.getName());
-//                Toast.makeText(this,file.getName(),Toast.LENGTH_LONG).show();
-
-
 
         }
     }
