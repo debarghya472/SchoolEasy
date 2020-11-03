@@ -145,22 +145,55 @@
                 android:singleLine="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/standard"
+            <View
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@android:color/transparent"
-                android:drawableLeft="@drawable/ic_class"
-                android:drawablePadding="8dp"
-                android:gravity="center_vertical"
-                android:hint="Standard(Only 1,2,3)"
-                android:inputType="phone"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="1px"
+                android:background="#000000" />
+
+
+            <!--            <EditText-->
+<!--                android:id="@+id/standard"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:drawableLeft="@drawable/ic_class"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:hint="Standard(Only 1,2,3)"-->
+<!--                android:inputType="phone"-->
+<!--                android:padding="10dp"-->
+<!--                android:singleLine="true"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
+            <RelativeLayout
+                android:id="@+id/rellayout"
+                android:layout_width="match_parent"
+                android:layout_margin="7dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/classimg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_class"/>
+                <TextView
+                    android:id="@+id/text"
+                    android:paddingLeft="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_toRightOf="@id/classimg"
+                    android:text="Standard"/>
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:backgroundTint="#959595"
+                    android:layout_toRightOf="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
             <View
                 android:layout_width="fill_parent"
@@ -183,6 +216,11 @@
                 android:singleLine="true"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#000000" />
+
 
             <EditText
                 android:id="@+id/age"

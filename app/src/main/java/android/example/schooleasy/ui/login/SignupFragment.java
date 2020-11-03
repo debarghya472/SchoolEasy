@@ -2,6 +2,7 @@ package android.example.schooleasy.ui.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.example.schooleasy.MainActivity;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.dataclass.Parent;
 import android.example.schooleasy.dataclass.Student;
@@ -19,11 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.example.schooleasy.R;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +51,7 @@ public class SignupFragment extends Fragment {
     private EditText userEmailId;
     private EditText userPassword;
     private Button signupBtn;
+    private Spinner spinner;
     private JsonPlaceholderApi jsonPlaceholderApi;
     private CheckBox studCheckbox;
     private CheckBox parCheckbox;
@@ -54,11 +60,15 @@ public class SignupFragment extends Fragment {
     private EditText mobileNo;
     private EditText studEmail;
     private EditText subject;
+    private String standardd;
     private EditText age;
+    private RelativeLayout relativeLayout;
     private EditText standard;
     private EditText confirmPassword;
     private LoadDialog loadDialog;
     private  LinearLayout linearLayout;
+    private static final String[] paths = {"class 1", "class 2", "class 3"};
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +85,9 @@ public class SignupFragment extends Fragment {
         linearLayout =(LinearLayout)root.findViewById(R.id.layout);
         userEmailId = (EditText) root.findViewById(R.id.userEmailId);
         userPassword = (EditText) root.findViewById(R.id.password);
+        spinner =(Spinner) root.findViewById(R.id.spinner);
         studEmail =(EditText) root.findViewById(R.id.studEmail);
+        relativeLayout=(RelativeLayout) root.findViewById(R.id.rellayout);
         confirmPassword = (EditText) root.findViewById(R.id.confirmPassword);
         signupBtn = (Button) root.findViewById(R.id.signUpBtn);
         age =(EditText) root.findViewById(R.id.age);
@@ -89,7 +101,33 @@ public class SignupFragment extends Fragment {
 //        address = (EditText) root.findViewById(R.id.address);
 
         fullName = (EditText) root.findViewById(R.id.fullName);
-        standard=(EditText) root.findViewById(R.id.standard);
+//        standard=(EditText) root.findViewById(R.id.standard);
+
+        ArrayAdapter<String>adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item,paths);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        standardd="1";
+                    break;
+
+                    case 1:standardd ="2";
+                    break;
+
+                    case 2:standardd="3";
+                    break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         loadDialog = new LoadDialog(getActivity());
@@ -117,7 +155,7 @@ public class SignupFragment extends Fragment {
                     teaCheckbox.toggle();
                 linearLayout.setVisibility(View.VISIBLE);
                 mobileNo.setVisibility(View.GONE);
-                standard.setVisibility(View.VISIBLE);
+                relativeLayout.setVisibility(View.VISIBLE);
                 subject.setVisibility(View.GONE);
                 age.setVisibility(View.VISIBLE);
                 studEmail.setVisibility(View.GONE);
@@ -134,7 +172,7 @@ public class SignupFragment extends Fragment {
                 linearLayout.setVisibility(View.VISIBLE);
                 mobileNo.setVisibility(View.VISIBLE);
                 subject.setVisibility(View.GONE);
-                standard.setVisibility(View.GONE);
+                relativeLayout.setVisibility(View.GONE);
                 age.setVisibility(View.GONE);
                 studEmail.setVisibility(View.VISIBLE);
             }
@@ -149,6 +187,7 @@ public class SignupFragment extends Fragment {
                 linearLayout.setVisibility(View.VISIBLE);
                 mobileNo.setVisibility(View.VISIBLE);
                 subject.setVisibility(View.VISIBLE);
+                relativeLayout.setVisibility(View.VISIBLE);
                 age.setVisibility(View.GONE);
                 studEmail.setVisibility(View.GONE);
             }
@@ -199,7 +238,7 @@ public class SignupFragment extends Fragment {
         String emailEntered = userEmailId.getText().toString();
         String passwordEntered= userPassword.getText().toString();
         String nameEntered = fullName.getText().toString();
-        String standardEntered =standard.getText().toString();
+        String standardEntered =standardd;
         String ageEntered =age.getText().toString();
         Student student = new Student(emailEntered,passwordEntered,nameEntered,standardEntered);
         Call<Student> call = jsonPlaceholderApi.signUpStud(student);
@@ -268,7 +307,7 @@ public class SignupFragment extends Fragment {
         String passwordEntered= userPassword.getText().toString();
         String nameEntered = fullName.getText().toString();
         String subjectEntered = subject.getText().toString();
-        String standardEntered = standard.getText().toString();
+        String standardEntered = standardd;
         Teacher teacher =new Teacher( emailEntered,passwordEntered, nameEntered,subjectEntered,standardEntered);
         Call<Teacher> call =jsonPlaceholderApi.signUpTeach(teacher);
         call.enqueue(new Callback<Teacher>() {
