@@ -112,35 +112,20 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="30dp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/white_greyish"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:id="@+id/view_mat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/ic_pdf" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="View materials" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="#480028EE"
+                        android:id="@+id/recycler_view_view_materials"
+                        tools:listitem="@layout/get_materials_item"/>
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </ScrollView>
         </LinearLayout>
 
 

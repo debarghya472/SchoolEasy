@@ -8,6 +8,7 @@ import android.example.schooleasy.dataclass.FeedData;
 import android.example.schooleasy.dataclass.Forum;
 import android.example.schooleasy.dataclass.LoginResponseStudent;
 import android.example.schooleasy.dataclass.LoginResponseTeacher;
+import android.example.schooleasy.dataclass.MaterialList;
 import android.example.schooleasy.dataclass.NoticeDetails;
 import android.example.schooleasy.dataclass.NoticeList;
 import android.example.schooleasy.dataclass.Parent;
@@ -92,9 +93,14 @@ public interface JsonPlaceholderApi {
 
     //study materials
     @Multipart
-    @POST("materials/5f8d5ec9556822d9a05d47a9/add")
+    @POST("materials/{subjectId}/add")
     Call<ResponseBody> uploadFile(@Part MultipartBody.Part file,
+                                  @Path("subjectId") String subjectId,
+                                  @Header("Authorization" )String header,
                                   @Part("text")RequestBody text);
+
+    @GET("materials/{subjectId}/get")
+    Call<MaterialList> getFiles(@Path("subjectId") String subjectId);
 
     @POST("notices/{standard}/add")
     Call<Void> addNotice(@Path("standard") String standard, @Body NoticeDetails details,@Header("Authorization" )String header);
@@ -107,5 +113,7 @@ public interface JsonPlaceholderApi {
     Call<FeedDataResponse> getFeed();
     @POST("posts/5f8c61a8db99b1224469e6b9/add")
     Call<FeedData> postFeed(@Body FeedData st,@Header("Authorization" )String header);
+
+
 
 }

@@ -5,16 +5,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.example.schooleasy.BuildConfig;
 import android.example.schooleasy.R;
+import android.example.schooleasy.dataclass.Material;
+import android.example.schooleasy.dataclass.MaterialList;
 import android.example.schooleasy.network.JsonPlaceholderApi;
 import android.example.schooleasy.network.RetrofitClientInstance;
 import android.example.schooleasy.ui.LoadDialog;
@@ -24,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -33,6 +41,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -53,49 +63,91 @@ public class SubjectInfoActivity extends AppCompatActivity {
     private Button upload;
     private JsonPlaceholderApi jsonPlaceholderApi;
     private LoadDialog loadDialog;
-    private LinearLayout ll;
+    private RecyclerView recyclerView;
     private Uri filePath;
+    private List<Material> mlistView;
+    private DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_info);
         getWindow().setBackgroundDrawableResource(R.color.background_color);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_view_materials);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setHasFixedSize(true);
+        mlistView= new ArrayList<Material>();
+
+        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+        jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
 
         loadDialog = new LoadDialog(this);
 
-        ll = (LinearLayout) findViewById(R.id.view_mat);
         standard1 = this.findViewById(R.id.stand);
 
         Intent intent = getIntent();
         String subName = intent.getStringExtra("subname");
         String standard = intent.getStringExtra("Standard");
         String stand = intent.getStringExtra("Stand");
+        String subjectId = intent.getStringExtra("SubjectId");
+        Log.d("sub id", subjectId);
 
         standard1.setText("Standard " + stand);
 
         SharedPreferences info = this.getSharedPreferences("info", MODE_PRIVATE);
+        String token = info.getString("token",null);
         setTitle(subName);
 
         Button bn = findViewById(R.id.but);
         textView = findViewById(R.id.text);
         upload = findViewById(R.id.Upload);
 
-        ll.setOnClickListener(new View.OnClickListener() {
+        loadDialog.startLoad();
+        Call<MaterialList> call = jsonPlaceholderApi.getFiles(subjectId);
+        call.enqueue(new Callback<MaterialList>() {
             @Override
-            public void onClick(View v) {
-                Uri path = Uri.fromFile(file);
-                Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
-                pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                pdfOpenintent.setDataAndType(path, "*/pdf");
-                try {
-                    startActivity(pdfOpenintent);
+            public void onResponse(Call<MaterialList> call, Response<MaterialList> response) {
+                if(!response.isSuccessful())  {
+                    Toast.makeText(getApplicationContext(),"No materials found",Toast.LENGTH_SHORT).show();
+                    loadDialog.dismissLoad();
+                    return;
                 }
-                catch (ActivityNotFoundException e) {
+                loadDialog.dismissLoad();
+                List<Material> materials = response.body().getMaterials();
+                if(materials==null){
+                    Toast.makeText(getApplicationContext(),"No materials added",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    for (Material material:materials){
+                        mlistView.add(new Material(material.getText(),material.getFilePath()));
+                    }
+                    attatchAdapter(mlistView);
+                }
 
-                }
+            }
+
+            @Override
+            public void onFailure(Call<MaterialList> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                loadDialog.dismissLoad();
             }
         });
+
+//        ll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Uri path = Uri.fromFile(file);
+//                Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
+//                pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                pdfOpenintent.setDataAndType(path, "*/pdf");
+//                try {
+//                    startActivity(pdfOpenintent);
+//                }
+//                catch (ActivityNotFoundException e) {
+//
+//                }
+//            }
+//        });
 
         bn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +169,6 @@ public class SubjectInfoActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-                jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi.class);
-
                 String path = FilePath.getPath(getApplication(), filePath);
 
                 file=new File(path);
@@ -132,7 +180,7 @@ public class SubjectInfoActivity extends AppCompatActivity {
                 MultipartBody.Part requestFile =MultipartBody.Part.createFormData("materials",file.getName(),fileitem);
 
                 loadDialog.startLoad();
-                Call<ResponseBody> call = jsonPlaceholderApi.uploadFile(requestFile,textname);
+                Call<ResponseBody> call = jsonPlaceholderApi.uploadFile(requestFile,subjectId,"Bearer "+token,textname);
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -204,6 +252,34 @@ public class SubjectInfoActivity extends AppCompatActivity {
             //String path = uri.getPath();
 
         }
+    }
+    private void attatchAdapter(List<Material> list){
+        final MaterialAdapter adapter = new MaterialAdapter(list,getApplicationContext());
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new MaterialAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Material material) {
+                String path = material.getFilePath();
+                String a = path.substring(9);
+                String finalPath = "localhost:"+a;
+                Log.d("fh",finalPath);
+
+//                final Uri data = FileProvider.getUriForFile(getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", new File(finalPath));
+//                getApplicationContext().grantUriPermission(getApplicationContext().getPackageName(), data, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                final Intent intent = new Intent(Intent.ACTION_VIEW)
+//                        .setDataAndType(data, "*/*")
+//                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                getApplicationContext().startActivity(intent);
+
+                downloadManager= (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse(path);
+                DownloadManager.Request request =new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                Long reference = downloadManager.enqueue(request);
+
+            }
+        });
     }
 
 }

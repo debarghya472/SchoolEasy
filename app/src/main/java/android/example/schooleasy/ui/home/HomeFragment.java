@@ -113,6 +113,8 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("subname",subject.getSubname());
                 intent.putExtra("Standard",s);
                 intent.putExtra("Stand",stand);
+                intent.putExtra("SubjectId",subject.getSubid());
+
                 startActivity(intent);
             }
         });
